@@ -5,6 +5,7 @@ import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
 import type { QueryClient } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { env } from "@/env.ts";
+import NotFoundPage from "@/components/layout/NotFound.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -23,4 +24,5 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             )}
         </>
     ),
+    notFoundComponent: NotFoundPage,
 });
