@@ -3,6 +3,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { env } from "@/env";
 import { version } from "@/../package.json";
 import { Helper } from "@/lib/Helpers";
+import { getOtpTokenStore } from "@/features/auth/store/otpTokenStore";
 
 const DOMAIN = env.api_url;
 
@@ -17,9 +18,9 @@ const api = axios.create({
     baseURL: DOMAIN,
     headers: {
         Accept: "application/json",
-        "x-my-schoool-app": "true",
-        "x-my-schoool-app-version": version,
-        "x-my-schoool-app-env": env.environment,
+        "x-co-note-web-app": "true",
+        "x-co-note-web-app-version": version,
+        "x-co-note-web-app-env": env.environment,
     },
 });
 
@@ -28,11 +29,16 @@ const api = axios.create({
  */
 api.interceptors.response.use(responseInterceptor, errorInterceptor);
 
+api.interceptors.request.use(config => {
+    const token = getOtpTokenStore().token;
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
+});
 /**
  * Response interceptor
  */
 async function responseInterceptor(response: AxiosResponse) {
-    await Helper.sleep(Helper.rand(100, 500));
+    await Helper.sleep(Helper.rand(1000, 2000));
     return response;
 }
 

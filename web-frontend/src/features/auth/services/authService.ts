@@ -1,28 +1,33 @@
 import type { TApiResponse } from "@/integrations/axios/axios";
 import api from "@/integrations/axios/axios";
+import { Helper } from "@/lib/Helpers";
 
 type TAuthServiceResponse = {
     TLogin: {
-        otpToken: string;
+        accessToken: string;
+    }
+    TRegister: {
+        accessToken: string;
+        user: any
     }
 };
 
 export const AuthService = {
     /**
      * Login user
-     * @param username User email
+     * @param email User email
      * @param password User password
      * @returns Promise<TApiResponse<TAuthServiceResponse['TLogin']>>
      * @throws Error if the request fails
      * @example
      * ```typescript
-     * const res = await AuthService.login("username", "password");
+     * const res = await AuthService.login("email@example.com", "password");
      * ```
      */
-    login: async (username: string, password: string) => {
-        // await sleep(2000);
+    login: async (email: string, password: string) => {
+        await Helper.sleep(2000);
         return await api
-            .post<TApiResponse<TAuthServiceResponse["TLogin"]>>("/auth/login", { username, password })
+            .post<TApiResponse<TAuthServiceResponse["TLogin"]>>("api/v1/auth/login", { email, password })
             .then((res) => {
                 if (res.data.status === 200) {
                     return res.data.data;

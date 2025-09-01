@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import noteIllustration from "@/assets/SVGs/open-notes.svg";
 import logo from "@/assets/images/logo.png";
+import { Link } from "@tanstack/react-router";
 
 export default function LandingPage() {
     return (
@@ -13,7 +14,11 @@ export default function LandingPage() {
                     <img src={logo} className="size-8" />
                     <span className="font-bold text-xl text-teal-600">CoNote</span>
                 </div>
-                <Button variant="default">Se connecter</Button>
+                <Button variant="default" className="px-0 py-0">
+                    <Link to={"/login"} className="px-4 py-2">
+                        Se connecter
+                    </Link>
+                </Button>
             </header>
 
             {/* Hero Section */}
@@ -30,13 +35,15 @@ export default function LandingPage() {
                         </motion.p>
 
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }} className="mt-8 flex flex-col sm:flex-row gap-4">
-                            <Button size="lg">
-                                <span className=" flex items-center gap-1">
+                            <Button size="lg" className="px-0 py-0">
+                                <Link to={"/login"} className="px-4 py-2 flex items-center gap-1">
                                     <span>Créer ma première note</span> <ArrowRight className="size-5" />
-                                </span>
+                                </Link>
                             </Button>
-                            <Button size="lg" variant="outline">
-                                Se connecter
+                            <Button size="lg" variant="outline" className="px-0 py-0">
+                                <Link to={"/login"} className="px-4 py-2">
+                                    Se connecter
+                                </Link>
                             </Button>
                         </motion.div>
                     </div>

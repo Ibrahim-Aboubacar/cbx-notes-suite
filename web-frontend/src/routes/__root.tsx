@@ -4,6 +4,7 @@ import TanStackQueryLayout from "../integrations/tanstack-query/layout.tsx";
 
 import type { QueryClient } from "@tanstack/react-query";
 import { Toaster } from "sonner";
+import { env } from "@/env.ts";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -14,8 +15,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         <>
             <Toaster position="top-right" theme="light" richColors />
             <Outlet />
-            <TanStackRouterDevtools />
-            <TanStackQueryLayout />
+            {env.isDev && (
+                <>
+                    <TanStackRouterDevtools />
+                    <TanStackQueryLayout />
+                </>
+            )}
         </>
     ),
 });

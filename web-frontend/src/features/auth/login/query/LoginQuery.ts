@@ -6,16 +6,16 @@ import { AuthService } from "@/features/auth/services/authService";
 type ResponseType = Awaited<ReturnType<typeof AuthService.login>>;
 
 type RequestType = {
-    username: string;
+    email: string;
     password: string;
 };
 
 export default function useLogin(options?: UseMutationOptions<ResponseType, AxiosError, RequestType>) {
     return useMutation({
         mutationKey: ["auth", "login"],
-        mutationFn: async ({ username, password }: RequestType) => {
+        mutationFn: async ({ email, password }: RequestType) => {
             try {
-                const res = await AuthService.login(username, password);
+                const res = await AuthService.login(email, password);
                 return res;
             } catch (error) {
                 if (error instanceof AxiosError) {
