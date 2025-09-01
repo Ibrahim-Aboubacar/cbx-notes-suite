@@ -61,7 +61,7 @@ function Button({
     return (
         <Comp
             data-slot="button"
-            className={cn(buttonVariants({ variant, size, className }), isPending && "relative")}
+            className={cn(buttonVariants({ variant, size, className }), isPending && "relative", "transition-all duration-300 ease-in-out", isPending && "text-transparent")}
             disabled={disabled || isPending}
             onClick={(e) => {
                 if (!disabled && !isPending) {
@@ -73,12 +73,12 @@ function Button({
             <>
                 <AnimatePresence>
                     {isPending && (
-                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="absolute inset-0 flex justify-center items-center cursor-progress">
+                        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className={cn(buttonVariants({ variant }), "w-full absolute inset-0 flex justify-center items-center cursor-progress")}>
                             <Loader2 className="animate-spin w-4 h-4" />
                         </motion.span>
                     )}
                 </AnimatePresence>
-                <span className={cn("transition-all duration-300 ease-in-out", isPending && "text-transparent")}>{children}</span>
+                {children}
             </>
         </Comp>
     );
