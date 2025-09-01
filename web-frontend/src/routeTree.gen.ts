@@ -17,6 +17,8 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AppSharedWithMeRouteImport } from './routes/_app/shared-with-me'
 import { Route as AppExploreRouteImport } from './routes/_app/explore'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppNotesNewIndexRouteImport } from './routes/_app/notes/new/index'
+import { Route as AppNotesNewPreviewRouteImport } from './routes/_app/notes/new/preview'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
@@ -56,6 +58,16 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppNotesNewIndexRoute = AppNotesNewIndexRouteImport.update({
+  id: '/notes/new/',
+  path: '/notes/new/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppNotesNewPreviewRoute = AppNotesNewPreviewRouteImport.update({
+  id: '/notes/new/preview',
+  path: '/notes/new/preview',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -64,6 +76,8 @@ export interface FileRoutesByFullPath {
   '/shared-with-me': typeof AppSharedWithMeRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/notes/new/preview': typeof AppNotesNewPreviewRoute
+  '/notes/new': typeof AppNotesNewIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -72,6 +86,8 @@ export interface FileRoutesByTo {
   '/shared-with-me': typeof AppSharedWithMeRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/notes/new/preview': typeof AppNotesNewPreviewRoute
+  '/notes/new': typeof AppNotesNewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -83,6 +99,8 @@ export interface FileRoutesById {
   '/_app/shared-with-me': typeof AppSharedWithMeRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
+  '/_app/notes/new/preview': typeof AppNotesNewPreviewRoute
+  '/_app/notes/new/': typeof AppNotesNewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -93,6 +111,8 @@ export interface FileRouteTypes {
     | '/shared-with-me'
     | '/login'
     | '/register'
+    | '/notes/new/preview'
+    | '/notes/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -101,6 +121,8 @@ export interface FileRouteTypes {
     | '/shared-with-me'
     | '/login'
     | '/register'
+    | '/notes/new/preview'
+    | '/notes/new'
   id:
     | '__root__'
     | '/'
@@ -111,6 +133,8 @@ export interface FileRouteTypes {
     | '/_app/shared-with-me'
     | '/_auth/login'
     | '/_auth/register'
+    | '/_app/notes/new/preview'
+    | '/_app/notes/new/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,6 +201,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/notes/new/': {
+      id: '/_app/notes/new/'
+      path: '/notes/new'
+      fullPath: '/notes/new'
+      preLoaderRoute: typeof AppNotesNewIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/notes/new/preview': {
+      id: '/_app/notes/new/preview'
+      path: '/notes/new/preview'
+      fullPath: '/notes/new/preview'
+      preLoaderRoute: typeof AppNotesNewPreviewRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
@@ -184,12 +222,16 @@ interface AppRouteRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppExploreRoute: typeof AppExploreRoute
   AppSharedWithMeRoute: typeof AppSharedWithMeRoute
+  AppNotesNewPreviewRoute: typeof AppNotesNewPreviewRoute
+  AppNotesNewIndexRoute: typeof AppNotesNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppExploreRoute: AppExploreRoute,
   AppSharedWithMeRoute: AppSharedWithMeRoute,
+  AppNotesNewPreviewRoute: AppNotesNewPreviewRoute,
+  AppNotesNewIndexRoute: AppNotesNewIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

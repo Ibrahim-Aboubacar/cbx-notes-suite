@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import AppLogo from "../AppLogo";
+import { Link } from "@tanstack/react-router";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -69,8 +70,10 @@ export default function Header() {
                 {/* Right side */}
                 <div className="flex flex-1 items-center justify-end gap-4">
                     <Button size="sm" className="text-sm max-sm:aspect-square max-sm:p-0">
-                        <PlusIcon className="opacity-60 sm:-ms-1" size={16} aria-hidden="true" />
-                        <span className="max-sm:sr-only">Note</span>
+                        <Link to="/notes/new" className="flex flex-row items-center gap-2 text-sm max-sm:aspect-square max-sm:p-0">
+                            <PlusIcon className="opacity-60 sm:-ms-1" size={16} aria-hidden="true" />
+                            <span className="max-sm:sr-only">Note</span>
+                        </Link>
                     </Button>
                     <UserMenu />
                 </div>

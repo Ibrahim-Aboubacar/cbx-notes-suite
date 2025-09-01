@@ -7,7 +7,7 @@ import useOtpTokenStore from "../../store/otpTokenStore";
 import useRegister from "../query/RegisterQuery";
 import { Link, useNavigate } from "@tanstack/react-router";
 import type z from "zod";
-import { ToastService } from "@/features/shared/services/toastService/toastService";
+import { ToastService } from "@/services/toastService/toastService";
 import useRegisterForm from "../form/RegisterForm";
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"form">) {

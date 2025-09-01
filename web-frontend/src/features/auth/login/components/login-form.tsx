@@ -8,7 +8,7 @@ import useLogin from "../query/LoginQuery";
 import { Link, useNavigate } from "@tanstack/react-router";
 import type z from "zod";
 import useLoginForm from "../form/LoginForm";
-import { ToastService } from "@/features/shared/services/toastService/toastService";
+import { ToastService } from "@/services/toastService/toastService";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
     const [isLoading, toggleLoading] = useToggle(false);
