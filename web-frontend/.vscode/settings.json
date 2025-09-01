@@ -1,0 +1,40 @@
+{
+    "files.watcherExclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "search.exclude": {
+        "**/routeTree.gen.ts": true,
+        "**/node_modules": true,
+        ".tanstack": true,
+        ".cta.json": true,
+        ".prettierignore": true,
+        "pnpm-lock.yaml": true,
+        "pnpm-workspace.yaml": true
+    },
+    "files.readonlyInclude": {
+        "**/routeTree.gen.ts": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/node_modules": true,
+        ".tanstack": true,
+        // ".env": true,
+        ".vscode": true,
+        "components.json": true,
+        "eslint.config.js": true,
+        "tsconfig.json": true,
+        "vite.config.js": true,
+        ".cursorrules": true,
+        "generate-translation-args.ts": true,
+        "prettier.config.js": true,
+        "README.md": true,
+        ".cta.json": true,
+        ".prettierignore": true,
+        "pnpm-lock.yaml": true,
+        "pnpm-workspace.yaml": true
+    }
+}
