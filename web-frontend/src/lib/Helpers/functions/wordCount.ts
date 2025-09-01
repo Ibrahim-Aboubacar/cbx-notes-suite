@@ -10,4 +10,4 @@
  */
 export const wordCount = (text: string) => {
     return text.match(/(\w+)/g)?.length || 0;
-}
+};

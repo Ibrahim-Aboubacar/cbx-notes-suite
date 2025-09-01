@@ -5,14 +5,14 @@ export default function useRouter() {
 
     const handleBack = () => {
         if (window.history.length > 1) {
-            window.history.back()
+            window.history.back();
         } else {
-            router.navigate({ to: '/' })
+            router.navigate({ to: "/" });
         }
-    }
+    };
 
     const canGoBack = () => {
-        return window.history.length > 1
-    }
+        return window.history.length > 1;
+    };
     return { ...router, back: handleBack, canGoBack };
 }

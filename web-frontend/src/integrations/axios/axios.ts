@@ -29,7 +29,7 @@ const api = axios.create({
  */
 api.interceptors.response.use(responseInterceptor, errorInterceptor);
 
-api.interceptors.request.use(config => {
+api.interceptors.request.use((config) => {
     const token = getOtpTokenStore().token;
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;

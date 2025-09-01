@@ -5,11 +5,11 @@ import { Helper } from "@/lib/Helpers";
 type TAuthServiceResponse = {
     TLogin: {
         accessToken: string;
-    }
+    };
     TRegister: {
         accessToken: string;
-        user: any
-    }
+        user: any;
+    };
 };
 
 export const AuthService = {
