@@ -6,7 +6,7 @@ export default function CreateNotePage() {
         <div className="h-full flex flex-col">
             <Header />
             <NoteEditor />
-            <div className="h-10"></div>
+            <div className="h-10" />
         </div>
     );
 }
