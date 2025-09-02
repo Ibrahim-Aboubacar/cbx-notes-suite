@@ -38,6 +38,7 @@
         "pnpm-workspace.yaml": true
     },
     "conventionalCommits.scopes": [
-        "auth"
+        "auth",
+        "components"
     ]
 }
