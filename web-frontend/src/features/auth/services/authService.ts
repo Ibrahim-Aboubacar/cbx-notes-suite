@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import type { TApiResponse } from "@/integrations/axios/axios";
 import api from "@/integrations/axios/axios";
 import { Helper } from "@/lib/Helpers";
@@ -26,6 +27,11 @@ export const AuthService = {
      */
     login: async (email: string, password: string) => {
         await Helper.sleep(2000);
+        if (env.isDev && email == 'cisko@gmail.com' && password == "password") {
+            return {
+                accessToken: Helper.randomString()
+            }
+        }
         return await api
             .post<TApiResponse<TAuthServiceResponse["TLogin"]>>("api/v1/auth/login", { email, password })
             .then((res) => {
