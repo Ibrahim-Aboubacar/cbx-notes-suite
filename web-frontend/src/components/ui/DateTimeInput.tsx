@@ -17,7 +17,6 @@ type DateTimeInputProps = {
 export function DateTimeInput({ date, setDate, defaultTimeValue, dateLabel, timeLabel, datePlaceholder }: DateTimeInputProps) {
     const id = useId();
     const [open, setOpen] = useState(false);
-
     return (
         <div className="flex gap-4">
             <div className="flex flex-col gap-3">

@@ -1,3 +1,4 @@
+import type { TInputTag } from "@/components/ui/TagInput";
 import { Helper } from "@/lib/Helpers";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
@@ -7,6 +8,12 @@ type TNoteEditorStore = {
     title: string;
     wordsCount: number;
     tags: string[];
+    isNoteVisible: boolean;
+    expirationDate: string;
+    friendEmails: TInputTag[],
+    setFriendEmails: (emails: TInputTag[]) => void,
+    setExpirationDate: (date: Date) => void;
+    toggleNoteVisible: (visibility: TNoteEditorStore["isNoteVisible"]) => void;
     setNote: (note: TNoteEditorStore["note"]) => void;
     setTags: (tags: TNoteEditorStore["tags"] | ((prev: TNoteEditorStore["tags"]) => TNoteEditorStore["tags"])) => void;
     setTitle: (title: TNoteEditorStore["title"]) => void;
@@ -21,6 +28,12 @@ const useNoteEditor = create(
             title: "",
             wordsCount: 0,
             tags: [],
+            isNoteVisible: false,
+            expirationDate: (new Date().toString()),
+            friendEmails: [],
+            setFriendEmails: (emails) => set({ friendEmails: emails }),
+            setExpirationDate: (date) => set({ expirationDate: date.toString() }),
+            toggleNoteVisible: (visibility) => set({ isNoteVisible: visibility }),
             setNote: (note) => set({ note, wordsCount: Helper.wordCount(note) }),
             setTitle: (title) => set({ title }),
             setTags: (tags) => {

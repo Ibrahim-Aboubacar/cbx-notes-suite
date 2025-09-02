@@ -3,14 +3,14 @@ import { ArrowLeft, InfoIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useRouter from "@/hooks/useRouter";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import TagInput, { type TInputTag } from "@/components/ui/TagInput";
+import TagInput from "@/components/ui/TagInput";
 import { DateTimeInput } from "@/components/ui/DateTimeInput";
-import { useToggle } from "react-use";
 import { cn } from "@/lib/utils";
+import useNoteEditor from "../store/noteEditorStore";
 
 export default function Header() {
     const router = useRouter();
@@ -38,9 +38,8 @@ export default function Header() {
 }
 
 function SaveDialog({ children }: { children: ReactNode }) {
-    const [friendEmails, setFriendEmails] = useState<TInputTag[]>([]);
-    const [expirationDate, setExpirationDate] = useState<Date>(new Date());
-    const [isNoteVisible, toggleNoteVisible] = useToggle(false);
+    const { isNoteVisible, toggleNoteVisible, expirationDate, setExpirationDate, friendEmails, setFriendEmails } = useNoteEditor();
+
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>
@@ -94,7 +93,7 @@ function SaveDialog({ children }: { children: ReactNode }) {
                         </div>
 
                         <p className="text-muted-foreground text-sm mb-3">Ajouter une date d'expiration de la note</p>
-                        <DateTimeInput date={expirationDate} setDate={setExpirationDate} />
+                        <DateTimeInput date={new Date(expirationDate)} setDate={setExpirationDate} />
                     </div>
 
                     <div className="mt-2">
