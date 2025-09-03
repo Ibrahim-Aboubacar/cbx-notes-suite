@@ -1,4 +1,4 @@
-package com.conote.dto;
+package com.conote.dto.entity;
 
 import java.util.UUID;
 

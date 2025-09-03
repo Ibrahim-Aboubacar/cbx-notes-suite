@@ -1,9 +1,9 @@
 package com.conote.controller;
 
-import com.conote.dto.auth.AuthMeResponse;
-import com.conote.dto.auth.AuthResponse;
-import com.conote.dto.LoginRequest;
-import com.conote.dto.RegisterRequest;
+import com.conote.dto.auth.response.AuthMeResponse;
+import com.conote.dto.auth.response.AuthResponse;
+import com.conote.dto.auth.request.LoginRequest;
+import com.conote.dto.auth.request.RegisterRequest;
 import com.conote.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

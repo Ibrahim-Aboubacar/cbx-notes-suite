@@ -1,6 +1,6 @@
-package com.conote.dto.auth;
+package com.conote.dto.auth.response;
 
-import com.conote.dto.UserDto;
+import com.conote.dto.entity.UserDto;
 
 public class AuthResponse {
     private String accessToken;

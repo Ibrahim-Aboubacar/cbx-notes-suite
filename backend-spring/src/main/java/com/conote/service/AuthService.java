@@ -1,8 +1,10 @@
 package com.conote.service;
 
-import com.conote.dto.*;
-import com.conote.dto.auth.AuthMeResponse;
-import com.conote.dto.auth.AuthResponse;
+import com.conote.dto.auth.response.AuthMeResponse;
+import com.conote.dto.auth.response.AuthResponse;
+import com.conote.dto.auth.request.LoginRequest;
+import com.conote.dto.auth.request.RegisterRequest;
+import com.conote.dto.entity.UserDto;
 import com.conote.entity.User;
 import com.conote.repository.UserRepository;
 import com.conote.security.JwtService;
