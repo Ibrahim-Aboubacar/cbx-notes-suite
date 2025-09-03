@@ -2,6 +2,7 @@ declare type TNote = {
     id: string
     title: string
     content: string;
+    // isPublic: boolean
     tags: string[]
     sharedWith: string[]
     createdAt: string
