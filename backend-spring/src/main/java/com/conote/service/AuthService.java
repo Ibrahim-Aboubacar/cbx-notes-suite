@@ -1,6 +1,8 @@
 package com.conote.service;
 
 import com.conote.dto.*;
+import com.conote.dto.auth.AuthMeResponse;
+import com.conote.dto.auth.AuthResponse;
 import com.conote.entity.User;
 import com.conote.repository.UserRepository;
 import com.conote.security.JwtService;
@@ -8,6 +10,9 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.util.Optional;
 
@@ -26,6 +31,26 @@ public class AuthService {
         this.authManager = authManager;
         this.jwtService = jwtService;
         this.userService = userDetailsService;
+    }
+
+    public AuthMeResponse me() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
+            throw new UsernameNotFoundException("Vous n'êtes pas connecté!");
+        }
+
+        User user = userRepo
+                .findByEmail(auth.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Vous n'êtes pas connecté!"));
+
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setEmail(user.getEmail());
+        userDto.setPseudo(user.getPseudo());
+
+
+        return new AuthMeResponse(userDto);
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -87,6 +112,4 @@ public class AuthService {
             throw new UsernameNotFoundException("Utilisateur non trouvé!");
         }
     }
-
-
 }

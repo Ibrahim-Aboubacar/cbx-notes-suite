@@ -1,14 +1,12 @@
 package com.conote.controller;
 
-import com.conote.dto.AuthResponse;
+import com.conote.dto.auth.AuthMeResponse;
+import com.conote.dto.auth.AuthResponse;
 import com.conote.dto.LoginRequest;
 import com.conote.dto.RegisterRequest;
 import com.conote.service.AuthService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -19,6 +17,11 @@ public class AuthController {
         this.authService = authService;
     }
 
+
+    @GetMapping("/me")
+    public ResponseEntity<AuthMeResponse> me(){
+        return ResponseEntity.ok(authService.me());
+    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login( @RequestBody LoginRequest request){
