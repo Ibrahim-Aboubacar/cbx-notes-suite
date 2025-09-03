@@ -9,7 +9,7 @@ import { Link } from "@tanstack/react-router";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-    { href: "/dashboard", label: "Accueil", icon: HouseIcon },
+    { href: "/notes", label: "Accueil", icon: HouseIcon },
     { href: "/explore", label: "Explore", icon: CompassIcon },
     { href: "/shared-with-me", label: "Partagé avec moi", icon: Blend },
 ];

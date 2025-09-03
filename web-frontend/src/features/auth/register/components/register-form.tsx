@@ -46,7 +46,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
                 }, 400);
 
                 navigate({
-                    to: "/dashboard",
+                    to: "/notes",
                 });
             })
             .catch(() => {

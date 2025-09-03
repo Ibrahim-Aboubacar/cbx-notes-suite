@@ -37,7 +37,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
                     token: res.accessToken,
                 });
                 navigate({
-                    to: "/dashboard",
+                    to: "/notes",
                 });
             })
             .catch(() => {
