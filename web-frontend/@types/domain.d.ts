@@ -1,3 +1,9 @@
+declare type TUser = {
+    id: string
+    pseudo: string
+    email: string
+}
+
 declare type TNote = {
     id: string
     title: string

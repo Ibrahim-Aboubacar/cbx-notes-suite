@@ -6,6 +6,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { env } from "@/env.ts";
 import NotFoundPage from "@/components/layout/NotFound.tsx";
+import { PendingComponent } from "@/components/layout/PendingComponent.tsx";
 
 interface MyRouterContext {
     queryClient: QueryClient;
@@ -14,7 +15,7 @@ interface MyRouterContext {
 export const Route = createRootRouteWithContext<MyRouterContext>()({
     component: () => (
         <>
-            <Toaster position="top-right" theme="light" richColors />
+            <Toaster position="top-right" theme="light" richColors closeButton />
             <Outlet />
             {env.isDev && (
                 <>
@@ -25,4 +26,5 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         </>
     ),
     notFoundComponent: NotFoundPage,
+    pendingComponent: PendingComponent,
 });

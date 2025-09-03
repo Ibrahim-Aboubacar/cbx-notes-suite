@@ -34,20 +34,28 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
         toggleLoading(true);
         mutateAsync(data)
             .then((res) => {
-                setData({
-                    token: res.accessToken,
-                });
-
-                setTimeout(() => {
-                    ToastService.success({
-                        title: "Inscription reussite",
-                        description: "Bienvenue sur CoNote",
+                if (res.success && res.data?.accessToken && res.data?.user) {
+                    setData({
+                        token: res.data.accessToken,
+                        user: res.data.user,
                     });
-                }, 400);
 
-                navigate({
-                    to: "/notes",
-                });
+                    setTimeout(() => {
+                        ToastService.success({
+                            title: "Inscription reussite",
+                            description: "Bienvenue sur CoNote",
+                        });
+                    }, 400);
+
+                    navigate({
+                        to: "/notes",
+                    });
+                } else {
+                    ToastService.error({
+                        title: "Une erreur est survenue",
+                        description: res.message,
+                    });
+                }
             })
             .catch(() => {
                 ToastService.error({

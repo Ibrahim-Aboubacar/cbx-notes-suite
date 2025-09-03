@@ -1,9 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router'
+import useUser from "@/features/auth/hooks/useUser";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_app/notes/')({
-  component: RouteComponent,
-})
+export const Route = createFileRoute("/_app/notes/")({
+    component: RouteComponent,
+});
 
 function RouteComponent() {
-  return <div>Hello "/_app/notes/"!</div>
+    const { data } = useUser();
+    return (
+        <div>
+            Hello "/_app/notes/"!
+            <br />
+            <br />
+            <br />
+            {JSON.stringify(data.data)}
+        </div>
+    );
 }

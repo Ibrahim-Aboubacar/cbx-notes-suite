@@ -18,10 +18,7 @@ export default function useLogin(options?: UseMutationOptions<ResponseType, Axio
                 const res = await AuthService.login(email, password);
                 return res;
             } catch (error) {
-                if (error instanceof AxiosError) {
-                    throw error.response?.data;
-                }
-                throw error; // handel the error to tanstak query
+                throw error;
             }
         },
         ...options,

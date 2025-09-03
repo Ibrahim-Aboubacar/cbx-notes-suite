@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import type { UseMutationOptions } from "@tanstack/react-query";
 import { AuthService } from "@/features/auth/services/authService";
 
-type ResponseType = Awaited<ReturnType<typeof AuthService.login>>;
+type ResponseType = Awaited<ReturnType<typeof AuthService.register>>;
 
 type RequestType = {
     username: string;
@@ -19,9 +19,6 @@ export default function useRegister(options?: UseMutationOptions<ResponseType, A
                 const res = await AuthService.register(username, email, password);
                 return res;
             } catch (error) {
-                if (error instanceof AxiosError) {
-                    throw error.response?.data;
-                }
                 throw error; // handel the error to tanstak query
             }
         },

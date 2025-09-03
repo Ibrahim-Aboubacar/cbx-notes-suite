@@ -1,15 +1,18 @@
-import { env } from "@/env";
-import type { TApiResponse } from "@/integrations/axios/axios";
 import api from "@/integrations/axios/axios";
-import { Helper } from "@/lib/Helpers";
+import { AxiosError } from "axios";
+import { getOtpTokenStore } from "../store/otpTokenStore";
 
 type TAuthServiceResponse = {
     TLogin: {
         accessToken: string;
+        user: TUser
     };
     TRegister: {
         accessToken: string;
-        user: any;
+        user: TUser
+    };
+    TMe: {
+        user: TUser
     };
 };
 
@@ -18,7 +21,7 @@ export const AuthService = {
      * Login user
      * @param email User email
      * @param password User password
-     * @returns Promise<TApiResponse<TAuthServiceResponse['TLogin']>>
+     * @returns Promise<TAuthServiceResponse['TLogin']>
      * @throws Error if the request fails
      * @example
      * ```typescript
@@ -26,21 +29,34 @@ export const AuthService = {
      * ```
      */
     login: async (email: string, password: string) => {
-        await Helper.sleep(2000);
-        if (env.isDev && email == 'cisko@gmail.com' && password == "password") {
-            return {
-                accessToken: Helper.randomString()
-            }
-        }
         return await api
-            .post<TApiResponse<TAuthServiceResponse["TLogin"]>>("api/v1/auth/login", { email, password })
+            .post<TAuthServiceResponse["TLogin"]>("api/v1/auth/login", { email, password })
             .then((res) => {
-                if (res.data.status === 200) {
-                    return res.data.data;
+                if (res.status === 200) {
+                    return {
+                        data: res.data,
+                        success: true,
+                        message: ""
+                    }
                 }
-                throw new Error(res.data.message);
+                throw new Error(res.status.toString());
             })
             .catch((err) => {
+                if (err instanceof AxiosError) {
+                    const { response } = err
+                    if (response?.status === 403) {
+                        return {
+                            data: null,
+                            success: false,
+                            message: "Email ou mot de passe incorrect"
+                        }
+                    }
+                }
+                return {
+                    data: null,
+                    success: false,
+                    message: "Veuillez vérifier vos identifiants"
+                }
                 throw err;
             });
     },
@@ -50,29 +66,77 @@ export const AuthService = {
      * @param username User username
      * @param email User email
      * @param password User password
-     * @returns Promise<TApiResponse<TAuthServiceResponse['TRegister']>>
+     * @returns Promise<TAuthServiceResponse['TRegister']>
      * @throws Error if the request fails
      * @example
      * ```typescript
      * const res = await AuthService.register("user.name", "email@example.com", "password");
      * ```
      */
-    register: async (username: string, email: string, password: string) => {
-        await Helper.sleep(2000);
+    register: async (pseudo: string, email: string, password: string) => {
         return await api
-            .post<TApiResponse<TAuthServiceResponse["TRegister"]>>("api/v1/auth/register", { username, email, password })
+            .post<TAuthServiceResponse["TRegister"]>("api/v1/auth/register", { pseudo, email, password })
             .then((res) => {
-                if (res.data.status === 200) {
-                    return res.data.data;
+                if (res.status === 200) {
+                    return {
+                        data: res.data,
+                        success: true,
+                        message: ""
+                    }
                 }
-                throw new Error(res.data.message);
+                throw new Error(res.status.toString());
             })
             .catch((err) => {
+                return {
+                    data: null,
+                    success: false,
+                    message: "Veuillez vérifier vos identifiants"
+                }
                 throw err;
             });
     },
+    /**
+     * Get user
+     * @returns Promise<TAuthServiceResponse['TMe']>
+     * @throws Error if the request fails
+     * @example
+     * ```typescript
+     * const res = await AuthService.me();
+     * ```
+     */
+    me: async () => {
+        return await api
+            .get<TAuthServiceResponse["TMe"]>("api/v1/auth/me")
+            .then((res) => {
+                if (res.status === 200) {
+                    return {
+                        data: res.data,
+                        success: true,
+                        message: ""
+                    }
+                }
+                throw new Error(res.status.toString());
+            })
+            .catch(() => {
+                return {
+                    data: null,
+                    success: false,
+                    message: "Vous n'êtes pas connecté!"
+                }
+            });
+    },
 
-    // logout: async () => api.post("/auth/logout"),
-
-    // getProfile: async () => api.get("/auth/me").then(res => res.data),
+    /**
+     * Logout user
+     * @returns void
+     * @throws Error if the request fails
+     * @example
+     * ```typescript
+     * await AuthService.logout();
+     * ```
+     */
+    logout: async () => {
+        const authStore = getOtpTokenStore();
+        authStore.resetData()
+    },
 };

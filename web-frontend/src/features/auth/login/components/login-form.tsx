@@ -9,6 +9,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import type z from "zod";
 import useLoginForm from "../form/LoginForm";
 import { ToastService } from "@/services/toastService/toastService";
+import { useCallback } from "react";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
     const [isLoading, toggleLoading] = useToggle(false);
@@ -29,27 +30,46 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
     });
     type formType = z.infer<typeof formSchema>;
 
-    function onSubmit(data: formType) {
-        toggleLoading(true);
-        mutateAsync(data)
-            .then((res) => {
-                setData({
-                    token: res.accessToken,
+    const onSubmit = useCallback(
+        (data: formType) => {
+            toggleLoading(true);
+            mutateAsync(data)
+                .then((res) => {
+                    if (res.success && res.data?.accessToken && res.data?.user) {
+                        setData({
+                            token: res.data.accessToken,
+                            user: res.data.user,
+                        });
+
+                        setTimeout(() => {
+                            ToastService.success({
+                                title: "Connexion reussite!",
+                                description: "Bon retour " + res.data.user.pseudo,
+                            });
+                        }, 300);
+
+                        navigate({
+                            to: "/notes",
+                        });
+                    } else {
+                        ToastService.error({
+                            title: "Une erreur est survenue",
+                            description: res.message,
+                        });
+                    }
+                })
+                .catch(() => {
+                    ToastService.error({
+                        title: "Une erreur est survenue",
+                        description: "Veuillez vérifier vos identifiants",
+                    });
+                })
+                .finally(() => {
+                    toggleLoading(false);
                 });
-                navigate({
-                    to: "/notes",
-                });
-            })
-            .catch(() => {
-                ToastService.error({
-                    title: "Une erreur est survenue",
-                    description: "Veuillez vérifier vos identifiants",
-                });
-            })
-            .finally(() => {
-                toggleLoading(false);
-            });
-    }
+        },
+        [setData, navigate],
+    );
     return (
         <form onSubmit={handleSubmit(onSubmit)} className={cn("p-6 md:p-8 md:col-span-3", className)} {...props}>
             <div className="flex flex-col gap-6">
