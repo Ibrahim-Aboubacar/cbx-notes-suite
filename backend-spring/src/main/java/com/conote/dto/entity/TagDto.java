@@ -1,5 +1,7 @@
 package com.conote.dto.entity;
 
+import com.conote.entity.Tag;
+
 import java.util.UUID;
 
 public class TagDto {
@@ -9,6 +11,11 @@ public class TagDto {
     public TagDto(UUID id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public TagDto(Tag tag) {
+        this.id = tag.getId();
+        this.name = tag.getName();
     }
 
     public UUID getId() {

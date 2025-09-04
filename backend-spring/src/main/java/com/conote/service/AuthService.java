@@ -5,7 +5,9 @@ import com.conote.dto.auth.response.AuthResponse;
 import com.conote.dto.auth.request.LoginRequest;
 import com.conote.dto.auth.request.RegisterRequest;
 import com.conote.dto.entity.UserDto;
+import com.conote.entity.Note;
 import com.conote.entity.User;
+import com.conote.repository.NoteRepository;
 import com.conote.repository.UserRepository;
 import com.conote.security.JwtService;
 import org.springframework.security.authentication.*;
@@ -21,14 +23,17 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    private final UserRepository userRepo;
+    private final AuthenticatedService authenticatedService;
+    private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authManager;
     private final JwtService jwtService;
     private final CustomUserService userService;
 
-    public AuthService(UserRepository userRepo, PasswordEncoder encoder, AuthenticationManager authManager, JwtService jwtService, CustomUserService userDetailsService) {
-        this.userRepo = userRepo;
+    public AuthService(AuthenticatedService authenticatedService, UserRepository userRepo, PasswordEncoder encoder, AuthenticationManager authManager, JwtService jwtService, CustomUserService userDetailsService) {
+
+        this.authenticatedService = authenticatedService;
+        this.userRepository = userRepo;
         this.encoder = encoder;
         this.authManager = authManager;
         this.jwtService = jwtService;
@@ -36,15 +41,8 @@ public class AuthService {
     }
 
     public AuthMeResponse me() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
-            throw new UsernameNotFoundException("Vous n'êtes pas connecté!");
-        }
-
-        User user = userRepo
-                .findByEmail(auth.getName())
-                .orElseThrow(() -> new UsernameNotFoundException("Vous n'êtes pas connecté!"));
+        User user = authenticatedService.getUser();
 
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
@@ -57,7 +55,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
 
-        if (userRepo.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email déjà utilisé");
         }
 
@@ -67,13 +65,13 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(encoder.encode(request.getPassword()));
 
-        userRepo.save(user);
+        userRepository.save(user);
 
         var userDetails = userService.loadUserByUsername(user.getEmail());
 
         String token = jwtService.generateToken(userDetails);
 
-        Optional<User> dbUser = userRepo.findByEmail(user.getEmail());
+        Optional<User> dbUser = userRepository.findByEmail(user.getEmail());
 
         if (dbUser.isPresent()) {
 
@@ -98,7 +96,7 @@ public class AuthService {
 
         String token = jwtService.generateToken(userDetails);
 
-        Optional<User> dbUser = userRepo.findByEmail(request.getEmail());
+        Optional<User> dbUser = userRepository.findByEmail(request.getEmail());
 
         if (dbUser.isPresent()) {
 

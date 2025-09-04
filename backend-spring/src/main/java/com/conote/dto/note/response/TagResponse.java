@@ -4,7 +4,6 @@ import com.conote.dto.entity.TagDto;
 import com.conote.entity.Tag;
 
 import java.util.List;
-import java.util.UUID;
 
 public class TagResponse {
     private List<TagDto> tags;

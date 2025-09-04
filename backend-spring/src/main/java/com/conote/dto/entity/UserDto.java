@@ -1,11 +1,22 @@
 package com.conote.dto.entity;
 
+import com.conote.entity.User;
+
 import java.util.UUID;
 
 public class UserDto {
     private UUID id;
     private String pseudo;
     private String email;
+
+    public UserDto(User user) {
+        this.id = user.getId();
+        this.pseudo = user.getPseudo();
+        this.email = user.getEmail();
+    }
+
+    public UserDto() {
+    }
 
     public UUID getId() {
         return id;
