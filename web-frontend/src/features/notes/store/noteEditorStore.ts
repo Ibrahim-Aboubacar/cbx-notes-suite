@@ -4,15 +4,15 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 type TNoteEditorStore = {
-    id: TUuid | null,
+    id: TUuid | null;
     note: string;
     title: string;
     wordsCount: number;
     tags: string[];
     isPublic: boolean;
     expirationDate: string;
-    friendEmails: TInputTag[],
-    setFriendEmails: (emails: TInputTag[]) => void,
+    friendEmails: TInputTag[];
+    setFriendEmails: (emails: TInputTag[]) => void;
     setExpirationDate: (date: Date) => void;
     toggleIsPublic: (isPublic: TNoteEditorStore["isPublic"]) => void;
     setNote: (note: TNoteEditorStore["note"]) => void;
@@ -31,7 +31,7 @@ const useNoteEditor = create(
             wordsCount: 0,
             tags: [],
             isPublic: false,
-            expirationDate: (new Date().toString()),
+            expirationDate: new Date().toString(),
             friendEmails: [],
             setFriendEmails: (emails) => set({ friendEmails: emails }),
             setExpirationDate: (date) => set({ expirationDate: date.toString() }),

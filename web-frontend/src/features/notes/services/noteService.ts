@@ -6,23 +6,22 @@ type TNoteServiceResponse = {
         id: TUuid;
     };
     TGet: {
-        notes: TBasicNote[]
-    }
+        notes: TBasicNote[];
+    };
     TGetNote: {
-        note: TDetailedNote
-    }
-    TGetTags: { tags: TTag[] }
+        note: TDetailedNote;
+    };
+    TGetTags: { tags: TTag[] };
 };
 
 export type TSaveNoteRequest = {
-    title: string,
-    content: string,
-    isPublic: boolean,
-    expirationDate: string,
-    sharedWith: string[],
-    tags: TUuid[]
-}
-
+    title: string;
+    content: string;
+    isPublic: boolean;
+    expirationDate: string;
+    sharedWith: string[];
+    tags: TUuid[];
+};
 
 export const NoteService = {
     /**

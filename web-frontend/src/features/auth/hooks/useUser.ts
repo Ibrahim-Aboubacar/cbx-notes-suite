@@ -7,17 +7,17 @@ export default function useUser() {
 
 export type TGetUserQuery =
     | {
-        data: {
-            user: TUser;
-        };
-        success: boolean;
-        message: string;
-    }
+          data: {
+              user: TUser;
+          };
+          success: boolean;
+          message: string;
+      }
     | {
-        data: null;
-        success: boolean;
-        message: string;
-    };
+          data: null;
+          success: boolean;
+          message: string;
+      };
 
 export const getUserQueryOpions = (): UseSuspenseQueryOptions<TGetUserQuery> => {
     return {
@@ -25,5 +25,5 @@ export const getUserQueryOpions = (): UseSuspenseQueryOptions<TGetUserQuery> => 
         queryFn: async () => {
             return await AuthService.me();
         },
-    }
-}
+    };
+};

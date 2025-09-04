@@ -5,14 +5,14 @@ import { getOtpTokenStore } from "../store/otpTokenStore";
 type TAuthServiceResponse = {
     TLogin: {
         accessToken: string;
-        user: TUser
+        user: TUser;
     };
     TRegister: {
         accessToken: string;
-        user: TUser
+        user: TUser;
     };
     TMe: {
-        user: TUser
+        user: TUser;
     };
 };
 
@@ -36,27 +36,27 @@ export const AuthService = {
                     return {
                         data: res.data,
                         success: true,
-                        message: ""
-                    }
+                        message: "",
+                    };
                 }
                 throw new Error(res.status.toString());
             })
             .catch((err) => {
                 if (err instanceof AxiosError) {
-                    const { response } = err
+                    const { response } = err;
                     if (response?.status === 403) {
                         return {
                             data: null,
                             success: false,
-                            message: "Email ou mot de passe incorrect"
-                        }
+                            message: "Email ou mot de passe incorrect",
+                        };
                     }
                 }
                 return {
                     data: null,
                     success: false,
-                    message: "Veuillez vérifier vos identifiants"
-                }
+                    message: "Veuillez vérifier vos identifiants",
+                };
                 throw err;
             });
     },
@@ -81,8 +81,8 @@ export const AuthService = {
                     return {
                         data: res.data,
                         success: true,
-                        message: ""
-                    }
+                        message: "",
+                    };
                 }
                 throw new Error(res.status.toString());
             })
@@ -90,8 +90,8 @@ export const AuthService = {
                 return {
                     data: null,
                     success: false,
-                    message: "Veuillez vérifier vos identifiants"
-                }
+                    message: "Veuillez vérifier vos identifiants",
+                };
                 throw err;
             });
     },
@@ -112,8 +112,8 @@ export const AuthService = {
                     return {
                         data: res.data,
                         success: true,
-                        message: ""
-                    }
+                        message: "",
+                    };
                 }
                 throw new Error(res.status.toString());
             })
@@ -121,8 +121,8 @@ export const AuthService = {
                 return {
                     data: null,
                     success: false,
-                    message: "Vous n'êtes pas connecté!"
-                }
+                    message: "Vous n'êtes pas connecté!",
+                };
             });
     },
 
@@ -137,6 +137,6 @@ export const AuthService = {
      */
     logout: async () => {
         const authStore = getOtpTokenStore();
-        authStore.resetData()
+        authStore.resetData();
     },
 };

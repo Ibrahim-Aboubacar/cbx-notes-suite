@@ -3,7 +3,6 @@ import { AxiosError } from "axios";
 import type { UseQueryOptions } from "@tanstack/react-query";
 import { NoteService } from "@/features/notes/services/noteService";
 
-
 type ResponseType = Awaited<ReturnType<typeof NoteService.getTags>>;
 
 export default function useGetTags(options?: Partial<UseQueryOptions<any, AxiosError, ResponseType>>) {

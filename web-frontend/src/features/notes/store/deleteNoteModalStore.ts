@@ -5,12 +5,10 @@ type TNoteEditorStore = {
     toggleModaltoOpen: (isModalOpen: TNoteEditorStore["modalOpenToOpen"]) => void;
 };
 
-const useDleteNoteModalStore = create<TNoteEditorStore>(
-    (set) => ({
-        modalOpenToOpen: '',
-        toggleModaltoOpen: (isModalOpen) => set({ modalOpenToOpen: isModalOpen }),
-    }),
-);
+const useDleteNoteModalStore = create<TNoteEditorStore>((set) => ({
+    modalOpenToOpen: "",
+    toggleModaltoOpen: (isModalOpen) => set({ modalOpenToOpen: isModalOpen }),
+}));
 
 export const getDeleteNoteModalStore = () => useDleteNoteModalStore.getState();
 

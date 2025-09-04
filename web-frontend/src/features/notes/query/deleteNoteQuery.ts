@@ -6,11 +6,10 @@ import { NoteService } from "@/features/notes/services/noteService";
 type ResponseType = Awaited<ReturnType<typeof NoteService.delete>>;
 
 type RequestType = {
-    noteId: TUuid,
+    noteId: TUuid;
 };
 
 export default function useDeleteNoteQuery(options?: UseMutationOptions<ResponseType, AxiosError, RequestType>) {
-
     return useMutation({
         mutationKey: ["notes", "delete"],
         mutationFn: async ({ noteId }: RequestType) => {

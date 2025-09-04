@@ -6,11 +6,10 @@ import { NoteService, type TSaveNoteRequest } from "@/features/notes/services/no
 type ResponseType = Awaited<ReturnType<typeof NoteService.save>>;
 
 type RequestType = {
-    note: TSaveNoteRequest
+    note: TSaveNoteRequest;
 };
 
 export default function useSaveNoteQuery(options?: UseMutationOptions<ResponseType, AxiosError, RequestType>) {
-
     return useMutation({
         mutationKey: ["notes", "save"],
         mutationFn: async ({ note }: RequestType) => {

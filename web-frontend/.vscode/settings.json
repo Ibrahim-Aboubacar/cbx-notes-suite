@@ -37,8 +37,5 @@
         "pnpm-lock.yaml": true,
         "pnpm-workspace.yaml": true
     },
-    "conventionalCommits.scopes": [
-        "auth",
-        "components"
-    ]
+    "conventionalCommits.scopes": ["auth", "components"]
 }

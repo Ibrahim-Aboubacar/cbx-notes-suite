@@ -1,11 +1,11 @@
-import { useSuspenseQuery, type UseSuspenseQueryOptions } from '@tanstack/react-query';
-import { NoteService } from '../services/noteService';
+import { useSuspenseQuery, type UseSuspenseQueryOptions } from "@tanstack/react-query";
+import { NoteService } from "../services/noteService";
 
 export default function useNoteQuery({ noteId }: { noteId: TUuid }) {
     return useSuspenseQuery(getNoteQueryOptions({ noteId }));
 }
 
-export type TGetNoteQueryOptions = Awaited<ReturnType<typeof NoteService.getNote>>
+export type TGetNoteQueryOptions = Awaited<ReturnType<typeof NoteService.getNote>>;
 
 export const getNoteQueryOptions = ({ noteId }: { noteId: TUuid }): UseSuspenseQueryOptions<TGetNoteQueryOptions> => {
     return {
@@ -16,6 +16,6 @@ export const getNoteQueryOptions = ({ noteId }: { noteId: TUuid }): UseSuspenseQ
         gcTime: 1_000 * 60 * 60 * 24, // 1 day
         staleTime: 1_000 * 60 * 60 * 24, // 1 day
         refetchOnMount: false,
-        refetchOnWindowFocus: true
-    }
-}
+        refetchOnWindowFocus: true,
+    };
+};

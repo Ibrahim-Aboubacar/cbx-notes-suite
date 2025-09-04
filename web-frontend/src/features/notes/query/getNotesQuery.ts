@@ -6,8 +6,8 @@ import { NoteService } from "@/features/notes/services/noteService";
 type ResponseType = Awaited<ReturnType<typeof NoteService.getMyNotes>>;
 
 type RequestType = {
-    type: TNoteType
-    searchQery?: object
+    type: TNoteType;
+    searchQery?: object;
 };
 
 export default function useGetNotesQuery(payload?: RequestType, options?: Partial<UseQueryOptions<any, AxiosError, ResponseType>>) {
@@ -18,10 +18,10 @@ export default function useGetNotesQuery(payload?: RequestType, options?: Partia
                 let res: { notes: TBasicNote[] };
                 // save the note in the database
                 switch (payload?.type) {
-                    case 'public':
+                    case "public":
                         res = await NoteService.getPublicNotes(payload?.searchQery);
                         break;
-                    case 'sharedWithMe':
+                    case "sharedWithMe":
                         res = await NoteService.getNotesSharedWithMe(payload?.searchQery);
                         break;
                     default:
