@@ -5,7 +5,9 @@ import { Button } from "@/components/ui/button";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import AppLogo from "../AppLogo";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -15,6 +17,36 @@ const navigationLinks = [
 ];
 
 export default function Header() {
+    const queryClient = useQueryClient();
+    const { pathname } = useLocation();
+
+    const handlePrefetch = useCallback(
+        (href: string) => {
+            if (pathname === href) return;
+
+            switch (href) {
+                case "/notes":
+                    queryClient.prefetchQuery({
+                        queryKey: ["notes", "get", { type: "myNotes", searchQery: {} }],
+                    });
+                    break;
+                case "/explore":
+                    queryClient.prefetchQuery({
+                        queryKey: ["notes", "get", { type: "public", searchQery: {} }],
+                    });
+                    break;
+                case "/shared-with-me":
+                    queryClient.prefetchQuery({
+                        queryKey: ["notes", "get", { type: "sharedWithMe", searchQery: {} }],
+                    });
+                    break;
+                default:
+                    break;
+            }
+        },
+        [pathname, queryClient],
+    );
+
     return (
         <header className="border-b px-4 md:px-6 bg-gradient-to-t from-teal-50 to-white">
             <div className="flex h-16 items-center justify-between gap-4 max-w-5xl mx-auto">
@@ -52,15 +84,15 @@ export default function Header() {
                     <AppLogo />
                 </div>
                 {/* Middle area */}
-                <NavigationMenu className="max-md:hidden">
+                <NavigationMenu className="max-md:hidden flex-1">
                     <NavigationMenuList className="gap-2 bg-teal-600/10 rounded-lg p-1">
                         {navigationLinks.map((link, index) => {
                             const Icon = link.icon;
                             return (
                                 <NavigationMenuItem key={index}>
-                                    <NavigationMenuLink to={link.href} className="flex flex-row size-8_ items-center justify-center p-1.5" title={link.label}>
+                                    <NavigationMenuLink to={link.href} activeOptions={{ exact: true }} onMouseEnter={() => handlePrefetch(link.href)} className="flex flex-row size-8_ items-center justify-center p-1.5" title={link.label}>
                                         <Icon aria-hidden="true" className="text-current" />
-                                        <span className="text-xs font-medium text-current">{link.label}</span>
+                                        <span className="text-xs font-medium text-current text-nowrap">{link.label}</span>
                                     </NavigationMenuLink>
                                 </NavigationMenuItem>
                             );

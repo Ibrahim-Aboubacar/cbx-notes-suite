@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import useRouter from "@/hooks/useRouter";
 import { SaveDialog } from "./save/SaveDialog";
 
-export default function Header() {
+export default function Header({ title, isEdit }: { title?: string; isEdit: boolean }) {
     const router = useRouter();
 
     return (
@@ -13,15 +13,15 @@ export default function Header() {
                 <Button onClick={router.back} variant="outline" size="icon" className="">
                     <ArrowLeft className="" />
                 </Button>
-                <h1 className="text-2xl font-bold">Nouvelle note</h1>
+                <h1 className="text-2xl font-bold">{title ? title : "Nouvelle note"}</h1>
             </div>
             <div className="flex items-center gap-4">
                 <Button variant="outline" className="px-0 py-0">
-                    <Link to="/notes/new/preview" className="px-4 py-2">
+                    <Link to="/notes/preview" className="px-4 py-2">
                         Prévisualiser
                     </Link>
                 </Button>
-                <SaveDialog>
+                <SaveDialog isEdit={isEdit}>
                     <Button variant="default">Enregistrer</Button>
                 </SaveDialog>
             </div>

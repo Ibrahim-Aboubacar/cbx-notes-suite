@@ -17,8 +17,11 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AppSharedWithMeRouteImport } from './routes/_app/shared-with-me'
 import { Route as AppExploreRouteImport } from './routes/_app/explore'
 import { Route as AppNotesIndexRouteImport } from './routes/_app/notes/index'
+import { Route as AppNotesPreviewRouteImport } from './routes/_app/notes/preview'
+import { Route as AppNotesChar123idChar125RouteRouteImport } from './routes/_app/notes/{$id}/route'
+import { Route as AppNotesChar123idChar125IndexRouteImport } from './routes/_app/notes/{$id}/index'
 import { Route as AppNotesNewIndexRouteImport } from './routes/_app/notes/new/index'
-import { Route as AppNotesNewPreviewRouteImport } from './routes/_app/notes/new/preview'
+import { Route as AppNotesChar123idChar125EditRouteImport } from './routes/_app/notes/{$id}/edit'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
@@ -58,16 +61,34 @@ const AppNotesIndexRoute = AppNotesIndexRouteImport.update({
   path: '/notes/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppNotesPreviewRoute = AppNotesPreviewRouteImport.update({
+  id: '/notes/preview',
+  path: '/notes/preview',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppNotesChar123idChar125RouteRoute =
+  AppNotesChar123idChar125RouteRouteImport.update({
+    id: '/notes/{$id}',
+    path: '/notes/{$id}',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppNotesChar123idChar125IndexRoute =
+  AppNotesChar123idChar125IndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppNotesChar123idChar125RouteRoute,
+  } as any)
 const AppNotesNewIndexRoute = AppNotesNewIndexRouteImport.update({
   id: '/notes/new/',
   path: '/notes/new/',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppNotesNewPreviewRoute = AppNotesNewPreviewRouteImport.update({
-  id: '/notes/new/preview',
-  path: '/notes/new/preview',
-  getParentRoute: () => AppRouteRoute,
-} as any)
+const AppNotesChar123idChar125EditRoute =
+  AppNotesChar123idChar125EditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AppNotesChar123idChar125RouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -75,9 +96,12 @@ export interface FileRoutesByFullPath {
   '/shared-with-me': typeof AppSharedWithMeRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/notes/{$id}': typeof AppNotesChar123idChar125RouteRouteWithChildren
+  '/notes/preview': typeof AppNotesPreviewRoute
   '/notes': typeof AppNotesIndexRoute
-  '/notes/new/preview': typeof AppNotesNewPreviewRoute
+  '/notes/{$id}/edit': typeof AppNotesChar123idChar125EditRoute
   '/notes/new': typeof AppNotesNewIndexRoute
+  '/notes/{$id}/': typeof AppNotesChar123idChar125IndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,9 +109,11 @@ export interface FileRoutesByTo {
   '/shared-with-me': typeof AppSharedWithMeRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/notes/preview': typeof AppNotesPreviewRoute
   '/notes': typeof AppNotesIndexRoute
-  '/notes/new/preview': typeof AppNotesNewPreviewRoute
+  '/notes/{$id}/edit': typeof AppNotesChar123idChar125EditRoute
   '/notes/new': typeof AppNotesNewIndexRoute
+  '/notes/{$id}': typeof AppNotesChar123idChar125IndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,9 +124,12 @@ export interface FileRoutesById {
   '/_app/shared-with-me': typeof AppSharedWithMeRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
+  '/_app/notes/{$id}': typeof AppNotesChar123idChar125RouteRouteWithChildren
+  '/_app/notes/preview': typeof AppNotesPreviewRoute
   '/_app/notes/': typeof AppNotesIndexRoute
-  '/_app/notes/new/preview': typeof AppNotesNewPreviewRoute
+  '/_app/notes/{$id}/edit': typeof AppNotesChar123idChar125EditRoute
   '/_app/notes/new/': typeof AppNotesNewIndexRoute
+  '/_app/notes/{$id}/': typeof AppNotesChar123idChar125IndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,9 +139,12 @@ export interface FileRouteTypes {
     | '/shared-with-me'
     | '/login'
     | '/register'
+    | '/notes/{$id}'
+    | '/notes/preview'
     | '/notes'
-    | '/notes/new/preview'
+    | '/notes/{$id}/edit'
     | '/notes/new'
+    | '/notes/{$id}/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,9 +152,11 @@ export interface FileRouteTypes {
     | '/shared-with-me'
     | '/login'
     | '/register'
+    | '/notes/preview'
     | '/notes'
-    | '/notes/new/preview'
+    | '/notes/{$id}/edit'
     | '/notes/new'
+    | '/notes/{$id}'
   id:
     | '__root__'
     | '/'
@@ -132,9 +166,12 @@ export interface FileRouteTypes {
     | '/_app/shared-with-me'
     | '/_auth/login'
     | '/_auth/register'
+    | '/_app/notes/{$id}'
+    | '/_app/notes/preview'
     | '/_app/notes/'
-    | '/_app/notes/new/preview'
+    | '/_app/notes/{$id}/edit'
     | '/_app/notes/new/'
+    | '/_app/notes/{$id}/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -201,6 +238,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotesIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/notes/preview': {
+      id: '/_app/notes/preview'
+      path: '/notes/preview'
+      fullPath: '/notes/preview'
+      preLoaderRoute: typeof AppNotesPreviewRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/notes/{$id}': {
+      id: '/_app/notes/{$id}'
+      path: '/notes/{$id}'
+      fullPath: '/notes/{$id}'
+      preLoaderRoute: typeof AppNotesChar123idChar125RouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/notes/{$id}/': {
+      id: '/_app/notes/{$id}/'
+      path: '/'
+      fullPath: '/notes/{$id}/'
+      preLoaderRoute: typeof AppNotesChar123idChar125IndexRouteImport
+      parentRoute: typeof AppNotesChar123idChar125RouteRoute
+    }
     '/_app/notes/new/': {
       id: '/_app/notes/new/'
       path: '/notes/new'
@@ -208,29 +266,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotesNewIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/_app/notes/new/preview': {
-      id: '/_app/notes/new/preview'
-      path: '/notes/new/preview'
-      fullPath: '/notes/new/preview'
-      preLoaderRoute: typeof AppNotesNewPreviewRouteImport
-      parentRoute: typeof AppRouteRoute
+    '/_app/notes/{$id}/edit': {
+      id: '/_app/notes/{$id}/edit'
+      path: '/edit'
+      fullPath: '/notes/{$id}/edit'
+      preLoaderRoute: typeof AppNotesChar123idChar125EditRouteImport
+      parentRoute: typeof AppNotesChar123idChar125RouteRoute
     }
   }
 }
 
+interface AppNotesChar123idChar125RouteRouteChildren {
+  AppNotesChar123idChar125EditRoute: typeof AppNotesChar123idChar125EditRoute
+  AppNotesChar123idChar125IndexRoute: typeof AppNotesChar123idChar125IndexRoute
+}
+
+const AppNotesChar123idChar125RouteRouteChildren: AppNotesChar123idChar125RouteRouteChildren =
+  {
+    AppNotesChar123idChar125EditRoute: AppNotesChar123idChar125EditRoute,
+    AppNotesChar123idChar125IndexRoute: AppNotesChar123idChar125IndexRoute,
+  }
+
+const AppNotesChar123idChar125RouteRouteWithChildren =
+  AppNotesChar123idChar125RouteRoute._addFileChildren(
+    AppNotesChar123idChar125RouteRouteChildren,
+  )
+
 interface AppRouteRouteChildren {
   AppExploreRoute: typeof AppExploreRoute
   AppSharedWithMeRoute: typeof AppSharedWithMeRoute
+  AppNotesChar123idChar125RouteRoute: typeof AppNotesChar123idChar125RouteRouteWithChildren
+  AppNotesPreviewRoute: typeof AppNotesPreviewRoute
   AppNotesIndexRoute: typeof AppNotesIndexRoute
-  AppNotesNewPreviewRoute: typeof AppNotesNewPreviewRoute
   AppNotesNewIndexRoute: typeof AppNotesNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppExploreRoute: AppExploreRoute,
   AppSharedWithMeRoute: AppSharedWithMeRoute,
+  AppNotesChar123idChar125RouteRoute:
+    AppNotesChar123idChar125RouteRouteWithChildren,
+  AppNotesPreviewRoute: AppNotesPreviewRoute,
   AppNotesIndexRoute: AppNotesIndexRoute,
-  AppNotesNewPreviewRoute: AppNotesNewPreviewRoute,
   AppNotesNewIndexRoute: AppNotesNewIndexRoute,
 }
 

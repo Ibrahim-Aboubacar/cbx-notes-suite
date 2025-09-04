@@ -17,9 +17,36 @@ declare type TNote = {
     updatedAt: string
 }
 
+declare type TBasicNote = {
+    id: string,
+    title: string,
+    content: string,
+    tags: TTag[],
+    user: TUser,
+    isPublic: boolean,
+    expirationDate: string,
+    sharedWithCount: number,
+    createdAt: string,
+    updatedAt: string
+}
+
+declare type TDetailedNote = {
+    id: string,
+    title: string,
+    content: string,
+    tags: TTag[],
+    sharedWith: TUser[],
+    user: TUser,
+    isPublic: boolean,
+    expirationDate: string,
+    createdAt: string,
+    updatedAt: string
+}
+
 declare type TTag = {
     id: TUuid
     name: string
 }
+
 
 declare type TNoteType = "myNotes" | "public" | "sharedWithMe"

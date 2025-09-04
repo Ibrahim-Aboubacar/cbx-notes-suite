@@ -37,13 +37,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         (data: formType) => {
             toggleLoading(true);
             mutateAsync(data)
-                .then(async (res) => {
+                .then((res) => {
                     if (res.success && res.data?.accessToken && res.data?.user) {
+                        queryClient.prefetchQuery(getUserQueryOpions());
                         setData({
                             token: res.data.accessToken,
                             user: res.data.user,
                         });
-                        await queryClient.prefetchQuery(getUserQueryOpions());
 
                         setTimeout(() => {
                             ToastService.success({
@@ -83,13 +83,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
                 </div>
                 <div className="grid gap-3">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" {...register("email")} placeholder="john.doe@example.com" error={errors.email} required />
+                    <Input id="email" type="email" {...register("email")} placeholder="john.doe@example.com" autoComplete="email" error={errors.email} required />
                 </div>
                 <div className="grid gap-3">
                     <div className="flex items-center">
                         <Label htmlFor="password">Mot de passe</Label>
                     </div>
-                    <Input id="password" type="password" {...register("password")} placeholder="********" error={errors.password} required />
+                    <Input id="password" type="password" {...register("password")} placeholder="********" autoComplete="current-password" error={errors.password} required />
                 </div>
                 <Button isPending={isLoading} type="submit" className="w-full">
                     Se connecter

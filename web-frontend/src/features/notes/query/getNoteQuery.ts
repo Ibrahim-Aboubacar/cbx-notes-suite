@@ -1,44 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import type { UseQueryOptions } from "@tanstack/react-query";
-import { NoteService } from "@/features/notes/services/noteService";
+import { useSuspenseQuery, type UseSuspenseQueryOptions } from '@tanstack/react-query';
+import { NoteService } from '../services/noteService';
 
+export default function useNoteQuery({ noteId }: { noteId: TUuid }) {
+    return useSuspenseQuery(getNoteQueryOptions({ noteId }));
+}
 
-type ResponseType = Awaited<ReturnType<typeof NoteService.getMyNotes>>;
+export type TGetNoteQueryOptions = Awaited<ReturnType<typeof NoteService.getNote>>
 
-type RequestType = {
-    type: TNoteType
-    searchQery?: object
-};
-
-export default function useGetNote(payload?: RequestType, options?: Partial<UseQueryOptions<any, AxiosError, ResponseType>>) {
-
-    return useQuery({
-        queryKey: ["notes", "get", { ...payload }],
+export const getNoteQueryOptions = ({ noteId }: { noteId: TUuid }): UseSuspenseQueryOptions<TGetNoteQueryOptions> => {
+    return {
+        queryKey: ["note", noteId],
         queryFn: async () => {
-            try {
-                let res: TNote[] = [];
-                // save the note in the database
-                switch (payload?.type) {
-                    case 'public':
-                        res = await NoteService.getPublicNotes(payload?.searchQery);
-                        break;
-                    case 'sharedWithMe':
-                        res = await NoteService.getNotesSharedWithMe(payload?.searchQery);
-                        break;
-                    default:
-                        res = await NoteService.getMyNotes(payload?.searchQery);
-                        break;
-                }
-
-                return res;
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    throw error.response?.data;
-                }
-                throw error; // handel the error to tanstak query
-            }
+            return await NoteService.getNote({ noteId });
         },
-        ...options,
-    });
+        gcTime: 1_000 * 60 * 60 * 24, // 1 day
+        staleTime: 1_000 * 60 * 60 * 24, // 1 day
+        refetchOnMount: false,
+        refetchOnWindowFocus: true
+    }
 }

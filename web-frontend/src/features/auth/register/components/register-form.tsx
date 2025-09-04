@@ -36,13 +36,13 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
     function onSubmit(data: formType) {
         toggleLoading(true);
         mutateAsync(data)
-            .then(async (res) => {
+            .then((res) => {
                 if (res.success && res.data?.accessToken && res.data?.user) {
+                    queryClient.prefetchQuery(getUserQueryOpions());
                     setData({
                         token: res.data.accessToken,
                         user: res.data.user,
                     });
-                    await queryClient.prefetchQuery(getUserQueryOpions());
                     setTimeout(() => {
                         ToastService.success({
                             title: "Inscription reussite",
@@ -79,17 +79,17 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
                 </div>
                 <div className="grid gap-3">
                     <Label htmlFor="username">Pseudo</Label>
-                    <Input id="username" type="text" {...register("username")} placeholder="john.doe" error={errors.username} required />
+                    <Input id="username" type="text" {...register("username")} placeholder="john.doe" autoComplete="username" error={errors.username} required />
                 </div>
                 <div className="grid gap-3">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" {...register("email")} placeholder="john.doe@example.com" error={errors.email} required />
+                    <Input id="email" type="email" {...register("email")} placeholder="john.doe@example.com" autoComplete="email" error={errors.email} required />
                 </div>
                 <div className="grid gap-3">
                     <div className="flex items-center">
                         <Label htmlFor="password">Mot de passe</Label>
                     </div>
-                    <Input id="password" type="password" {...register("password")} placeholder="********" error={errors.password} required />
+                    <Input id="password" type="password" {...register("password")} placeholder="********" autoComplete="new-password" error={errors.password} required />
                 </div>
                 <Button isPending={isLoading} type="submit" className="w-full">
                     S'inscrire

@@ -32,9 +32,6 @@ export default function MarkDownEditor() {
                     theme={isDarkModeEnabeled ? "dark" : "light"}
                     extensions={[markdown()]} //
                 />
-                {/* <textarea onChange={({ target }) => setNote(target.value)} className="h-full w-full p-3 [resize:none]">
-                    {note}
-                </textarea> */}
             </div>
         </div>
     );

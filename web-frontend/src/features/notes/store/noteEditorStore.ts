@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 type TNoteEditorStore = {
+    id: TUuid | null,
     note: string;
     title: string;
     wordsCount: number;
@@ -17,13 +18,14 @@ type TNoteEditorStore = {
     setNote: (note: TNoteEditorStore["note"]) => void;
     setTags: (tags: TNoteEditorStore["tags"] | ((prev: TNoteEditorStore["tags"]) => TNoteEditorStore["tags"])) => void;
     setTitle: (title: TNoteEditorStore["title"]) => void;
-    setData: (data: Omit<TNoteEditorStore, "setData" | "resetData" | "setNote" | "setTitle" | "wordsCount">) => void;
+    setData: (data: Pick<TNoteEditorStore, "note" | "title" | "tags" | "isPublic" | "expirationDate" | "friendEmails"> & { id?: TUuid }) => void;
     resetData: () => void;
 };
 
 const useNoteEditor = create(
     persist<TNoteEditorStore>(
         (set, get) => ({
+            id: null,
             note: "",
             title: "",
             wordsCount: 0,
@@ -43,7 +45,7 @@ const useNoteEditor = create(
                     set({ tags: tags });
                 }
             },
-            setData: (data) => set(data),
+            setData: (data) => set({ ...data, wordsCount: Helper.wordCount(data.note) }),
             resetData: () => set({ note: "", title: "", wordsCount: 0 }),
         }),
         {
@@ -52,6 +54,7 @@ const useNoteEditor = create(
         },
     ),
 );
+
 export const getNoteEditorStore = () => useNoteEditor.getState();
 
 export default useNoteEditor;

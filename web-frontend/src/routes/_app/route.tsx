@@ -41,9 +41,9 @@ export const Route = createFileRoute("/_app")({
 
 function RouteComponent() {
     return (
-        <div className="flex h-screen flex-col bg-gradient-to-t from-teal-50 to-teal-50/50">
+        <div className="flex h-screen relative flex-col bg-gradient-to-t from-teal-50 to-teal-50/50">
             <Header />
-            <div className=" flex-1 overflow-auto max-w-5xl w-full mx-auto">
+            <div className=" flex-1 overflow-auto max-w-5xl w-full mx-auto px-6 lg:px-0">
                 <Outlet />
             </div>
         </div>

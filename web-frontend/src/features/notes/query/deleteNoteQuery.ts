@@ -1,21 +1,21 @@
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import type { UseMutationOptions } from "@tanstack/react-query";
-import { NoteService, type TSaveNoteRequest } from "@/features/notes/services/noteService";
+import { NoteService } from "@/features/notes/services/noteService";
 
-type ResponseType = Awaited<ReturnType<typeof NoteService.save>>;
+type ResponseType = Awaited<ReturnType<typeof NoteService.delete>>;
 
 type RequestType = {
-    note: TSaveNoteRequest
+    noteId: TUuid,
 };
 
-export default function useSaveNoteQuery(options?: UseMutationOptions<ResponseType, AxiosError, RequestType>) {
+export default function useDeleteNoteQuery(options?: UseMutationOptions<ResponseType, AxiosError, RequestType>) {
 
     return useMutation({
-        mutationKey: ["notes", "save"],
-        mutationFn: async ({ note }: RequestType) => {
+        mutationKey: ["notes", "delete"],
+        mutationFn: async ({ noteId }: RequestType) => {
             try {
-                const res = await NoteService.save(note);
+                const res = await NoteService.delete(noteId);
 
                 return res;
             } catch (error) {

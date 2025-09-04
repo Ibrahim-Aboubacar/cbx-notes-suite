@@ -6,10 +6,12 @@ import { Helper } from "@/lib/Helpers";
 import { useCallback } from "react";
 import { AuthService } from "@/features/auth/services/authService";
 import useRouter from "@/hooks/useRouter";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function UserMenu() {
+    const queryClient = useQueryClient();
     const router = useRouter();
-    const { user: authUser } = useOtpTokenStore();
+    const { user: authUser, resetData } = useOtpTokenStore();
     const user: TUser = authUser
         ? authUser
         : {
@@ -18,10 +20,18 @@ export default function UserMenu() {
               email: "guest@example.com",
           };
 
-    const handleLogout = useCallback(() => {
-        AuthService.logout();
+    const handleLogout = useCallback(async () => {
+        await AuthService.logout();
+
+        setTimeout(() => {
+            queryClient.cancelQueries({ type: "all", exact: false });
+            queryClient.resetQueries({ type: "all", exact: false });
+        }, 300);
+
+        resetData();
+
         router.navigate({ to: "/login", replace: true });
-    }, []);
+    }, [queryClient, resetData, router]);
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -39,17 +49,6 @@ export default function UserMenu() {
                     <span className="text-muted-foreground truncate text-xs font-normal">{user.email}</span>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {/* <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <PinIcon size={16} className="opacity-60" aria-hidden="true" />
-                        <span>Option 4</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <UserPenIcon size={16} className="opacity-60" aria-hidden="true" />
-                        <span>Option 5</span>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator /> */}
                 <DropdownMenuItem variant="destructive" onClick={handleLogout}>
                     <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
                     <span>Logout</span>
