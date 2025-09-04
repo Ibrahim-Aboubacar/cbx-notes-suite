@@ -11,20 +11,13 @@ public class NoteDto {
     private String title;
     private String content;
     private List<TagDto> tags;
+    private int sharedWithCount = 0;
 
     private UserDto user;
     private Boolean isPublic;
     private LocalDateTime expirationDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public UserDto getUser() {
-        return user;
-    }
-
-    public void setUser(UserDto user) {
-        this.user = user;
-    }
 
     public NoteDto(Note note) {
 
@@ -37,9 +30,18 @@ public class NoteDto {
         this.tags = note.getTags().stream().map((noteTag) -> new TagDto(noteTag.getId(), noteTag.getName())).toList();
 
         this.user = new UserDto(note.getUser());
+        this.sharedWithCount = note.getSharedWith().size();
         this.expirationDate = note.getExpirationDate();
         this.createdAt = note.getCreatedAt();
         this.updatedAt = note.getUpdatedAt();
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
     public UUID getId() {
@@ -59,6 +61,11 @@ public class NoteDto {
     }
 
     public String getContent() {
+        int maxLength = 120;
+        if (content.length() > maxLength) {
+
+            return content.substring(0, maxLength-3)+"...";
+        }
         return content;
     }
 
@@ -104,5 +111,13 @@ public class NoteDto {
 
     public void setTags(List<TagDto> tags) {
         this.tags = tags;
+    }
+
+    public int getSharedWithCount() {
+        return sharedWithCount;
+    }
+
+    public void setSharedWithCount(int sharedWithCount) {
+        this.sharedWithCount = sharedWithCount;
     }
 }
