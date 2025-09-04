@@ -24,6 +24,7 @@ public class Note {
     private User user;
 
     private Boolean isPublic = false;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
