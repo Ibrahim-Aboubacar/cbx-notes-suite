@@ -106,6 +106,8 @@ public class NoteService {
         User authenticatedUser = authenticatedService.getUser();
 
         Optional<Note> note = noteRepository.findById(noteId);
+
+        // Verify that user owns that note if it is present
         if(note.isPresent() && note.get().getUser().getId() == authenticatedUser.getId()){
             noteRepository.delete(note.get());
             return new DeleteNoteResponse(noteId);
