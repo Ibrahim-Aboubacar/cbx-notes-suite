@@ -24,6 +24,16 @@ public class NoteController {
         return ResponseEntity.ok(noteService.getMyNotes());
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<NoteResponse> getPublicNotes(){
+        return ResponseEntity.ok(noteService.getPublicNotes());
+    }
+
+    @GetMapping("/shared-with-me")
+    public ResponseEntity<NoteResponse> getSharedWithMeNotes(){
+        return ResponseEntity.ok(noteService.getSharedWithMeNotes());
+    }
+
     @PostMapping
     public ResponseEntity<CreateNoteResponse> createNote(@RequestBody CreateNoteRequest request){
         return ResponseEntity.ok(noteService.createNote(request));
@@ -36,7 +46,7 @@ public class NoteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GetNoteResponse> getNote(@PathVariable UUID id){
-        return ResponseEntity.ok(noteService.getNote(id, false));
+        return ResponseEntity.ok(noteService.getNote(id, true));
     }
 
     @DeleteMapping("/{id}")

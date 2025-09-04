@@ -3,6 +3,8 @@ package com.conote.dto.entity;
 import com.conote.entity.Note;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +13,7 @@ public class DetailedNoteDto {
     private String title;
     private String content;
     private List<TagDto> tags;
-    private List<UserDto> sharedWith;
+    private List<UserDto> sharedWith = new ArrayList<>();
 
     private UserDto user;
     private Boolean isPublic;
@@ -35,11 +37,17 @@ public class DetailedNoteDto {
         this.isPublic = note.getIsPublic();
 
         // get the tags to map to their DTO
-        this.tags = note.getTags().stream().map(TagDto::new).toList();
+        this.tags = note.getTags().stream()
+                .map(TagDto::new)
+                .sorted(Comparator.comparing(TagDto::getName))
+                .toList();
 
         // get the users to map to their DTO
         if(withSharedUser){
-            this.sharedWith = note.getSharedWith().stream().map(UserDto::new).toList();
+            this.sharedWith = note.getSharedWith().stream()
+                    .map(UserDto::new)
+                    .sorted(Comparator.comparing(UserDto::getPseudo))
+                    .toList();
         }
 
         this.user = new UserDto(note.getUser());

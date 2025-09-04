@@ -136,24 +136,37 @@ public class NoteService {
 
         Optional<Note> note = noteRepository.findById(noteId);
 
-        if (note.isPresent()) {
+        if (note.isEmpty()) {
+            throw new NoSuchElementException("Note non trouvé!");
+        }
 
-            if (isPublic && note.get().getIsPublic()) {
-                // If note has expired set it to not found
-                if (note.get().getExpirationDate().isAfter(LocalDateTime.now())) {
-                    throw new NoSuchElementException("Note non trouvé!");
-                }
-                // we don't return thr shared with users if the note is publicly viewed
-                return new GetNoteResponse(new DetailedNoteDto(note.get(), false));
+        if (note.get().getIsPublic()) {
+            if (note.get().getExpirationDate().isAfter(LocalDateTime.now())) {
+                throw new NoSuchElementException("Note non trouvé!");
             }
-            // Verify that user owns that note if not looking for public
-            if (note.get().getUser().getId() == authenticatedUser.getId()) {
-                return new GetNoteResponse(new DetailedNoteDto(note.get(), true));
-            }
+            // we don't return thr shared with users if the note is viewed by owner
+            return new GetNoteResponse(new DetailedNoteDto(note.get(), authenticatedUser.getId() == note.get().getUser().getId()));
+        }
 
+        if (authenticatedUser.getId() == note.get().getUser().getId() || note.get().getSharedWith().contains(authenticatedUser)) {
+            return new GetNoteResponse(new DetailedNoteDto(note.get(), authenticatedUser.getId() == note.get().getUser().getId()));
         }
 
         throw new NoSuchElementException("Note non trouvé!");
+
+//            if (isPublic && note.get().getIsPublic()) {
+//                // If note has expired set it to not found
+//                if (note.get().getExpirationDate().isAfter(LocalDateTime.now())) {
+//                }
+//                // we don't return thr shared with users if the note is publicly viewed
+//                return new GetNoteResponse(new DetailedNoteDto(note.get(), false));
+//            }
+//            // Verify that user owns that note if not looking for public
+//            if (note.get().getUser().getId() == authenticatedUser.getId()) {
+//                return new GetNoteResponse(new DetailedNoteDto(note.get(), true));
+//            }
+
+
     }
 
     public DeleteNoteResponse deleteNote(UUID noteId) {
@@ -167,5 +180,18 @@ public class NoteService {
             return new DeleteNoteResponse(noteId);
         }
         throw new NoSuchElementException("Note non trouvé!");
+    }
+
+    public NoteResponse getPublicNotes() {
+
+        List<Note> notes = noteRepository.findByIsPublicTrueAndExpirationDateAfterAndUserIdNot(LocalDateTime.now(), authenticatedService.getUser().getId());
+
+        return new NoteResponse(notes.stream().map(NoteDto::new).toList());
+    }
+
+    public NoteResponse getSharedWithMeNotes() {
+        List<Note> notes = noteRepository.findBySharedWith_Id(authenticatedService.getUser().getId());
+
+        return new NoteResponse(notes.stream().map(NoteDto::new).toList());
     }
 }
