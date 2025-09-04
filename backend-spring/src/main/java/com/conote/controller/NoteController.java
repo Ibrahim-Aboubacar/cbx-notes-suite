@@ -2,6 +2,7 @@ package com.conote.controller;
 
 import com.conote.dto.note.request.CreateNoteRequest;
 import com.conote.dto.note.response.CreateNoteResponse;
+import com.conote.dto.note.response.DeleteNoteResponse;
 import com.conote.dto.note.response.GetNoteResponse;
 import com.conote.dto.note.response.NoteResponse;
 import com.conote.service.NoteService;
@@ -34,4 +35,11 @@ public class NoteController {
     public ResponseEntity<GetNoteResponse> getNote(@PathVariable UUID id){
         return ResponseEntity.ok(noteService.getNote(id, false));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DeleteNoteResponse> deleteNote(@PathVariable UUID id){
+        return ResponseEntity.ok(noteService.deleteNote(id));
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.conote.dto.entity.DetailedNoteDto;
 import com.conote.dto.entity.NoteDto;
 import com.conote.dto.note.request.CreateNoteRequest;
 import com.conote.dto.note.response.CreateNoteResponse;
+import com.conote.dto.note.response.DeleteNoteResponse;
 import com.conote.dto.note.response.GetNoteResponse;
 import com.conote.dto.note.response.NoteResponse;
 import com.conote.entity.Note;
@@ -35,7 +36,6 @@ public class NoteService {
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
     }
-
 
     public NoteResponse getMyNotes() {
         User authenticatedUser = authenticatedService.getUser();
@@ -99,6 +99,17 @@ public class NoteService {
 
         }
 
+        throw new NoSuchElementException("Note non trouvé!");
+    }
+
+    public DeleteNoteResponse deleteNote(UUID noteId){
+        User authenticatedUser = authenticatedService.getUser();
+
+        Optional<Note> note = noteRepository.findById(noteId);
+        if(note.isPresent() && note.get().getUser().getId() == authenticatedUser.getId()){
+            noteRepository.delete(note.get());
+            return new DeleteNoteResponse(noteId);
+        }
         throw new NoSuchElementException("Note non trouvé!");
     }
 }
