@@ -4,10 +4,19 @@ import { memo, type ReactNode } from "react";
 import { NoteSharing } from "@/features/notes/components/save/NoteSharing";
 import { NoteVisibilityExpiration } from "@/features/notes/components/save/NoteVisibilityExpiration";
 import { NoteVisibility } from "@/features/notes/components/save/NoteVisibility";
+import useSaveNote from "../../hooks/useSaveNote";
 
 export const SaveDialog = memo(({ children }: { children: ReactNode }) => {
+    const { handleSubmit, isPending, open, toggleOpen } = useSaveNote();
     return (
-        <Dialog>
+        <Dialog
+            open={open}
+            onOpenChange={(v) => {
+                if (!isPending) {
+                    toggleOpen(v);
+                }
+            }}
+        >
             <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
@@ -20,7 +29,9 @@ export const SaveDialog = memo(({ children }: { children: ReactNode }) => {
 
                     <div className="flex gap-2 justify-end items-center mt-4">
                         <Button variant="outline">Annuler</Button>
-                        <Button variant="default">Enregistrer</Button>
+                        <Button isPending={isPending} onClick={handleSubmit} variant="default">
+                            Enregistrer
+                        </Button>
                     </div>
                 </DialogHeader>
             </DialogContent>

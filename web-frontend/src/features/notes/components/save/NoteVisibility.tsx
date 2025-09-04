@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import useNoteEditor from "@/features/notes/store/noteEditorStore";
 
 export const NoteVisibility = memo(() => {
-    const { isNoteVisible, toggleNoteVisible } = useNoteEditor();
+    const { isPublic: isNoteVisible, toggleIsPublic: toggleNoteVisible } = useNoteEditor();
 
     return (
         <div className="mt-2">

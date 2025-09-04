@@ -10,8 +10,11 @@ import type z from "zod";
 import useLoginForm from "../form/LoginForm";
 import { ToastService } from "@/services/toastService/toastService";
 import { useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { getUserQueryOpions } from "../../hooks/useUser";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"form">) {
+    const queryClient = useQueryClient();
     const [isLoading, toggleLoading] = useToggle(false);
     const { setData } = useOtpTokenStore();
     const { mutateAsync } = useLogin();
@@ -34,12 +37,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"form">)
         (data: formType) => {
             toggleLoading(true);
             mutateAsync(data)
-                .then((res) => {
+                .then(async (res) => {
                     if (res.success && res.data?.accessToken && res.data?.user) {
                         setData({
                             token: res.data.accessToken,
                             user: res.data.user,
                         });
+                        await queryClient.prefetchQuery(getUserQueryOpions());
 
                         setTimeout(() => {
                             ToastService.success({

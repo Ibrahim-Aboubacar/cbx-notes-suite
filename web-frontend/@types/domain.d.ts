@@ -1,11 +1,13 @@
 declare type TUser = {
-    id: string
+    id: TUuid
     pseudo: string
     email: string
 }
 
+declare type TUuid = string;
+
 declare type TNote = {
-    id: string
+    id: TUuid
     title: string
     content: string;
     isPublic: boolean
@@ -16,7 +18,7 @@ declare type TNote = {
 }
 
 declare type TTag = {
-    id: string
+    id: TUuid
     name: string
 }
 

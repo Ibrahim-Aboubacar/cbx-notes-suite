@@ -8,12 +8,12 @@ type TNoteEditorStore = {
     title: string;
     wordsCount: number;
     tags: string[];
-    isNoteVisible: boolean;
+    isPublic: boolean;
     expirationDate: string;
     friendEmails: TInputTag[],
     setFriendEmails: (emails: TInputTag[]) => void,
     setExpirationDate: (date: Date) => void;
-    toggleNoteVisible: (visibility: TNoteEditorStore["isNoteVisible"]) => void;
+    toggleIsPublic: (isPublic: TNoteEditorStore["isPublic"]) => void;
     setNote: (note: TNoteEditorStore["note"]) => void;
     setTags: (tags: TNoteEditorStore["tags"] | ((prev: TNoteEditorStore["tags"]) => TNoteEditorStore["tags"])) => void;
     setTitle: (title: TNoteEditorStore["title"]) => void;
@@ -28,12 +28,12 @@ const useNoteEditor = create(
             title: "",
             wordsCount: 0,
             tags: [],
-            isNoteVisible: false,
+            isPublic: false,
             expirationDate: (new Date().toString()),
             friendEmails: [],
             setFriendEmails: (emails) => set({ friendEmails: emails }),
             setExpirationDate: (date) => set({ expirationDate: date.toString() }),
-            toggleNoteVisible: (visibility) => set({ isNoteVisible: visibility }),
+            toggleIsPublic: (isPublic) => set({ isPublic }),
             setNote: (note) => set({ note, wordsCount: Helper.wordCount(note) }),
             setTitle: (title) => set({ title }),
             setTags: (tags) => {

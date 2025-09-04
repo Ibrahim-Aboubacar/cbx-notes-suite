@@ -1,6 +1,6 @@
 import Header from "@/components/layout/Header";
 import { PendingComponent } from "@/components/layout/PendingComponent";
-import { getUserQueryOpions } from "@/features/auth/hooks/useUser";
+import { getUserQueryOpions, type TGetUserQuery } from "@/features/auth/hooks/useUser";
 import { getOtpTokenStore } from "@/features/auth/store/otpTokenStore";
 import { ToastService } from "@/services/toastService/toastService";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
@@ -9,7 +9,12 @@ export const Route = createFileRoute("/_app")({
     // middelware to ensure that user is authenticated
     loader: async ({ context }) => {
         const { queryClient } = context;
-        const res = await queryClient.fetchQuery(getUserQueryOpions());
+        // read last data before fetching
+        let res = queryClient.getQueryData<TGetUserQuery>(["user"]);
+
+        if (!res?.success || !res?.data?.user) {
+            res = await queryClient.fetchQuery(getUserQueryOpions());
+        }
         if (!res.success || !res.data?.user) {
             setTimeout(() => {
                 ToastService.error({

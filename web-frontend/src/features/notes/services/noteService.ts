@@ -4,11 +4,20 @@ import { Helper } from "@/lib/Helpers";
 
 type TNoteServiceResponse = {
     Tsave: {
-        id: string;
+        id: TUuid;
     };
     TGet: TNote[]
     TGetTags: { tags: TTag[] }
 };
+
+export type TSaveNoteRequest = {
+    title: string,
+    content: string,
+    isPublic: boolean,
+    expirationDate: string,
+    sharedWith: string[],
+    tags: TUuid[]
+}
 
 
 export const NoteService = {
@@ -22,15 +31,15 @@ export const NoteService = {
      * const res = await NoteService.save({ title: "Note title", content: "# Note content", tags: ["tag1", "tag2"], sharedWith: ["user1@gmail.com", "user2@gmail.com"] });
      * ```
      */
-    save: async (note: Omit<TNote, "id">) => {
+    save: async (note: TSaveNoteRequest) => {
         await Helper.sleep(1_000);
         return await api
-            .post<TApiResponse<TNoteServiceResponse["Tsave"]>>("api/v1/auth/notes", { ...note })
+            .post<TNoteServiceResponse["Tsave"]>("api/v1/notes", { ...note, expirationDate: new Date(note.expirationDate).toISOString() })
             .then((res) => {
-                if (res.data.status === 200) {
-                    return res.data.data;
+                if (res.status === 200) {
+                    return res.data;
                 }
-                throw new Error(res.data.message);
+                throw new Error(res.status.toString());
             })
             .catch((err) => {
                 throw err;

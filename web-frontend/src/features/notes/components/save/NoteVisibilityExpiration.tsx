@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import useNoteEditor from "@/features/notes/store/noteEditorStore";
 
 export const NoteVisibilityExpiration = memo(() => {
-    const { isNoteVisible, expirationDate, setExpirationDate } = useNoteEditor();
+    const { isPublic: isNoteVisible, expirationDate, setExpirationDate } = useNoteEditor();
 
     return (
         <div className={cn("mt-2 transition-opacity", !isNoteVisible && "opacity-20 pointer-events-none select-none grayscale-100")}>
