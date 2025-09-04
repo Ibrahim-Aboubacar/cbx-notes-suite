@@ -9,7 +9,7 @@ import { useCallback } from "react";
 
 export default function useSaveNote({ isEdit }: { isEdit: boolean }) {
     const queryClient = useQueryClient();
-    const { id, note: content, isPublic, expirationDate, friendEmails, tags, title } = useNoteEditor();
+    const { id, note: content, isPublic, expirationDate, friendEmails, tags, title, resetData } = useNoteEditor();
     const [open, toggleOpen] = useToggle(false);
     const navigate = useNavigate();
 
@@ -71,6 +71,7 @@ export default function useSaveNote({ isEdit }: { isEdit: boolean }) {
                     title: "Note enregistrée",
                     description: "Votre note a été enregistrée avec succès",
                 });
+                resetData()
                 queryClient.refetchQueries({
                     queryKey: ["notes", "get"],
                     exact: false,

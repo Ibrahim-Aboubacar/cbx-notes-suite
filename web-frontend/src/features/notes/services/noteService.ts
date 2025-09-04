@@ -1,4 +1,3 @@
-import type { TApiResponse } from "@/integrations/axios/axios";
 import api from "@/integrations/axios/axios";
 
 type TNoteServiceResponse = {

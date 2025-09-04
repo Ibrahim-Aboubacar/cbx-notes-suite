@@ -15,7 +15,7 @@ export const NoteDetailsView = memo(({ note }: { note: TDetailedNote }) => {
     const isOwner = data?.user?.id == note.user.id;
     return (
         <motion.div className="flex flex-col gap-2">
-            {isOwner && (
+            {isOwner && note?.sharedWith?.length > 0 && (
                 <div className="flex justify-end items-center mt-2">
                     <Label>
                         <span className="ml-2 text-sm font-medium">Afficher les amis</span>
@@ -29,7 +29,7 @@ export const NoteDetailsView = memo(({ note }: { note: TDetailedNote }) => {
                     <ReactMarkdown children={note.content} remarkPlugins={[remarkGfm]} />
                 </motion.div>
                 <AnimatePresence>
-                    {showFriends && isOwner && (
+                    {showFriends && isOwner && note?.sharedWith?.length > 0 && (
                         <motion.div
                             layout
                             //

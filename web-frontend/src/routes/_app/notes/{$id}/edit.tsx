@@ -18,7 +18,7 @@ function RouteComponent() {
             title: note.title,
             tags: note.tags.map((tag) => tag.id),
             isPublic: note.isPublic,
-            expirationDate: note.expirationDate,
+            expirationDate: new Date(note.expirationDate).toISOString(),
             friendEmails: note.sharedWith.map((user) => ({ id: user.id, text: user.email })),
         });
     }, [note.id]);

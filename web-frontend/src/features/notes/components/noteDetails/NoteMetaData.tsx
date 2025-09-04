@@ -1,4 +1,6 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import useUser from "@/features/auth/hooks/useUser";
+import { cn } from "@/lib/utils";
 import { CalendarRange, Earth, Lock, Tag, UserRound, UsersRound } from "lucide-react";
 import { memo } from "react";
 
@@ -7,6 +9,9 @@ export const NoteMetaData = memo(({ note }: { note: TDetailedNote }) => {
         data: { data },
     } = useUser();
     const isOwner = data?.user?.id == note.user.id;
+    const expirationDate = new Date(note.expirationDate);
+
+    const hasExpired = expirationDate.getTime() < new Date().getTime();
     return (
         <div className="text-neutral-400 min-h-20">
             <div className="flex items-center justify-between">
@@ -22,13 +27,29 @@ export const NoteMetaData = memo(({ note }: { note: TDetailedNote }) => {
                         </div>
                     </div>
                     {/* Visibility */}
-                    <div className="flex items-center gap-2 w-full">
-                        <div className="flex size-7 items-center justify-center">{note.isPublic ? <Earth strokeWidth={1.5} className="size-6" /> : <Lock strokeWidth={1.5} className="size-6" />}</div>
-                        <div className="flex flex-col leading-none">
-                            <span className="text-[0.6rem] text-muted-foreground">Visibilité</span>
-                            <span className="text-neutral-600 text-sm font-medium">{note?.isPublic ? "Publique" : "Privée"}</span>
-                        </div>
-                    </div>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <div className="flex items-center gap-2 w-full">
+                                <div className="flex size-7 items-center justify-center relative">
+                                    {note.isPublic && <span className={cn("absolute top-0 right-0 size-3 border-2 rounded-full", hasExpired ? "bg-red-500 border-red-200" : "bg-teal-500 border-teal-200")}></span>}
+                                    {note.isPublic ? <Earth strokeWidth={1.5} className="size-6" /> : <Lock strokeWidth={1.5} className="size-6" />}
+                                </div>
+                                <div className="flex flex-col leading-none">
+                                    <span className="text-[0.6rem] text-muted-foreground">Visibilité</span>
+                                    <span className={cn("text-neutral-600 text-sm font-medium", note.isPublic && (hasExpired ? "text-red-600" : "text-teal-600"))}>{note?.isPublic ? "Publique" : "Privée"}</span>
+                                </div>
+                            </div>
+                        </TooltipTrigger>
+                        {note.isPublic && (
+                            <TooltipContent side="right" tooltipPrimitiveArrowClassName="bg-teal-900 fill-teal-900" className="bg-teal-900">
+                                <div className="max-w-56 text-neutral-500 p-1">
+                                    <p className=" text-teal-50">
+                                        {hasExpired ? "A expiré le " : "Expire le "} <span className="font-semibold">{expirationDate.toISOString().split("T")[0]}</span> à <span className="font-semibold">{expirationDate.toISOString().split("T")[1].slice(0, 8)}</span>
+                                    </p>
+                                </div>
+                            </TooltipContent>
+                        )}
+                    </Tooltip>
                 </div>
                 <div className="flex flex-col items-center gap-2">
                     <div className="flex items-center gap-2 w-full">

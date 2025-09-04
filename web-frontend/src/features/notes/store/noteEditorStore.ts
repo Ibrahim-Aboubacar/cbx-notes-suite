@@ -46,7 +46,16 @@ const useNoteEditor = create(
                 }
             },
             setData: (data) => set({ ...data, wordsCount: Helper.wordCount(data.note) }),
-            resetData: () => set({ note: "", title: "", wordsCount: 0 }),
+            resetData: () => set({
+                id: null,
+                note: "",
+                title: "",
+                wordsCount: 0,
+                tags: [],
+                isPublic: false,
+                expirationDate: new Date().toString(),
+                friendEmails: []
+            }),
         }),
         {
             name: "note-editor",

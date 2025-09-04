@@ -61,7 +61,7 @@ export function DateTimeInput({ date, setDate, defaultTimeValue, dateLabel, time
                         newDate.setHours(hours, minutes, 0, 0);
                         setDate(newDate);
                     }}
-                    defaultValue={defaultTimeValue || "00:00:00"}
+                    defaultValue={defaultTimeValue || date.toISOString().split("T")[1].slice(0, 8) || "00:00:00"}
                     className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
             </div>
