@@ -71,7 +71,7 @@ export default function useSaveNote({ isEdit }: { isEdit: boolean }) {
                     title: "Note enregistrée",
                     description: "Votre note a été enregistrée avec succès",
                 });
-                resetData()
+                resetData();
                 queryClient.refetchQueries({
                     queryKey: ["notes", "get"],
                     exact: false,

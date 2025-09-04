@@ -10,7 +10,7 @@ import remarkGfm from "remark-gfm";
 
 export default function PreviewPage() {
     const router = useRouter();
-    const { note, title } = useNoteEditor();
+    const { id, note, title } = useNoteEditor();
     return (
         <div className="h-full flex flex-col">
             <div className="flex justify-between items-center py-2 ">
@@ -26,7 +26,7 @@ export default function PreviewPage() {
                             Modifier
                         </Link>
                     </Button>
-                    <SaveDialog>
+                    <SaveDialog isEdit={!!id}>
                         <Button variant="default">Enregistrer</Button>
                     </SaveDialog>
                 </div>
