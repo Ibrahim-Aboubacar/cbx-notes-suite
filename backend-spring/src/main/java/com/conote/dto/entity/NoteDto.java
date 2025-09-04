@@ -31,7 +31,7 @@ public class NoteDto {
         this.id = note.getId();
         this.title = note.getTitle();
         this.content = note.getContent();
-        this.isPublic = note.getPublic();
+        this.isPublic = note.getIsPublic();
 
         // get the tags to map to their DTO
         this.tags = note.getTags().stream().map((noteTag) -> new TagDto(noteTag.getId(), noteTag.getName())).toList();
@@ -66,11 +66,11 @@ public class NoteDto {
         this.content = content;
     }
 
-    public Boolean getPublic() {
+    public Boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setPublic(Boolean aPublic) {
+    public void setIsPublic(Boolean aPublic) {
         isPublic = aPublic;
     }
 

@@ -1,10 +1,8 @@
 package com.conote.controller;
 
 import com.conote.dto.note.request.CreateNoteRequest;
-import com.conote.dto.note.response.CreateNoteResponse;
-import com.conote.dto.note.response.DeleteNoteResponse;
-import com.conote.dto.note.response.GetNoteResponse;
-import com.conote.dto.note.response.NoteResponse;
+import com.conote.dto.note.request.UpdateNoteRequest;
+import com.conote.dto.note.response.*;
 import com.conote.service.NoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +27,11 @@ public class NoteController {
     @PostMapping
     public ResponseEntity<CreateNoteResponse> createNote(@RequestBody CreateNoteRequest request){
         return ResponseEntity.ok(noteService.createNote(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateNoteResponse> updateNote(@PathVariable UUID id, @RequestBody UpdateNoteRequest request){
+        return ResponseEntity.ok(noteService.updateNote(id, request));
     }
 
     @GetMapping("/{id}")

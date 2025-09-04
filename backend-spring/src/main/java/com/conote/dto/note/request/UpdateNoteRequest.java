@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class CreateNoteRequest {
+public class UpdateNoteRequest {
     @NotBlank
     private String title;
     @NotBlank

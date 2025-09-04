@@ -22,7 +22,9 @@ public class Note {
 
     @ManyToOne
     private User user;
-    private Boolean isPublic;
+
+    private Boolean isPublic = false;
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @Column(nullable=true)
@@ -60,12 +62,12 @@ public class Note {
         this.title = title;
     }
 
-    public Boolean getPublic() {
+    public Boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
+    public void setIsPublic(Boolean aPublic) {
+        isPublic = (Boolean) aPublic;
     }
 
     public String getContent() {
