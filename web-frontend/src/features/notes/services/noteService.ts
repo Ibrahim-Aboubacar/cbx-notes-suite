@@ -149,7 +149,7 @@ export const NoteService = {
     /**
      * Get public notes
      * @param searchQuery Search query params
-     * @returns Promise<TApiResponse<TNoteServiceResponse['TGet']>>
+     * @returns Promise<TNoteServiceResponse['TGet']>
      * @throws Error if the request fails
      * @example
      * ```typescript
@@ -158,12 +158,12 @@ export const NoteService = {
      */
     getPublicNotes: async (searchQuery?: Object) => {
         return await api
-            .get<TApiResponse<TNoteServiceResponse["TGet"]>>("api/v1/notes/public", { params: searchQuery })
+            .get<TNoteServiceResponse["TGet"]>("api/v1/notes/public", { params: searchQuery })
             .then((res) => {
-                if (res.data.status === 200) {
-                    return res.data.data;
+                if (res.status === 200) {
+                    return res.data;
                 }
-                throw new Error(res.data.message);
+                throw new Error(res.status.toString());
             })
             .catch((err) => {
                 throw err;
@@ -173,7 +173,7 @@ export const NoteService = {
     /**
      * Get notes shared with me
      * @param searchQuery Search query params
-     * @returns Promise<TApiResponse<TNoteServiceResponse['TGet']>>
+     * @returns Promise<TNoteServiceResponse['TGet']>
      * @throws Error if the request fails
      * @example
      * ```typescript
@@ -182,12 +182,12 @@ export const NoteService = {
      */
     getNotesSharedWithMe: async (searchQuery?: Object) => {
         return await api
-            .get<TApiResponse<TNoteServiceResponse["TGet"]>>("api/v1/notes/shared-with-me", { params: searchQuery })
+            .get<TNoteServiceResponse["TGet"]>("api/v1/notes/shared-with-me", { params: searchQuery })
             .then((res) => {
-                if (res.data.status === 200) {
-                    return res.data.data;
+                if (res.status === 200) {
+                    return res.data;
                 }
-                throw new Error(res.data.message);
+                throw new Error(res.status.toString());
             })
             .catch((err) => {
                 throw err;
