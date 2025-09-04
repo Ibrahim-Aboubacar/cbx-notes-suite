@@ -4,6 +4,7 @@ import { memo, useMemo } from "react";
 import { NoMatchingSearchedData } from "../components/NoMatchingSearchedData";
 import { NoData } from "../components/NoData";
 import { NoteElementShimmer } from "../components/NoteElementShimmer";
+import { cn } from "@/lib/utils";
 
 type DataPresentationProp = {
     data?: { notes: TBasicNote[] };
@@ -22,7 +23,7 @@ export const DataPresentation = memo(({ data, isPending, search, noDataComponent
 
     return (
         <>
-            <div className="grid gap-4 grid-cols-3 pb-40">
+            <div className={cn("grid gap-4 grid-cols-3 pb-40", !isPending && (data == undefined || data?.notes.length == 0) && "pb-0")}>
                 {/* Lading State */}
                 <AnimatePresence>
                     {/*  */}

@@ -4,11 +4,17 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import useDeleteNote from "../../hooks/useDeleteNote.";
 import { useNavigate } from "@tanstack/react-router";
 import { Edit, EllipsisIcon, Eye, Trash2 } from "lucide-react";
+import useUser from "@/features/auth/hooks/useUser";
 
 export const NoteOptions = memo(({ note }: { note: TBasicNote }) => {
     const { toggleModalToOpen } = useDeleteNote();
 
     const navigate = useNavigate();
+
+    const {
+        data: { data },
+    } = useUser();
+    const isOwner = data?.user?.id == note.user.id;
 
     return (
         <DropdownMenu>
@@ -26,14 +32,18 @@ export const NoteOptions = memo(({ note }: { note: TBasicNote }) => {
                     <Eye size={16} className="opacity-60" aria-hidden="true" />
                     <span>Ouvrir</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate({ to: "/notes/" + note.id + "/edit" })}>
-                    <Edit size={16} className="opacity-60" aria-hidden="true" />
-                    <span>Modifier</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem variant="destructive" onClick={() => toggleModalToOpen(note.id)}>
-                    <Trash2 size={16} className="opacity-60" aria-hidden="true" />
-                    <span>Supprimer</span>
-                </DropdownMenuItem>
+                {isOwner && (
+                    <DropdownMenuItem onClick={() => navigate({ to: "/notes/" + note.id + "/edit" })}>
+                        <Edit size={16} className="opacity-60" aria-hidden="true" />
+                        <span>Modifier</span>
+                    </DropdownMenuItem>
+                )}
+                {isOwner && (
+                    <DropdownMenuItem variant="destructive" onClick={() => toggleModalToOpen(note.id)}>
+                        <Trash2 size={16} className="opacity-60" aria-hidden="true" />
+                        <span>Supprimer</span>
+                    </DropdownMenuItem>
+                )}
             </DropdownMenuContent>
         </DropdownMenu>
     );

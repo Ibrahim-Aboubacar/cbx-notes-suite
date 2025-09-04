@@ -17,6 +17,8 @@ const NoteElement = memo(({ note }: { note: TBasicNote }) => {
     const { user: authUser } = useOtpTokenStore();
     const user: TUser = note.user;
 
+    const isOwner = authUser?.id == note.user.id;
+
     const handlePrefetch = useCallback(() => {
         if (!hasBeenPrefetched) {
             queryClient.prefetchQuery(getNoteQueryOptions({ noteId: note.id }));
@@ -75,7 +77,7 @@ const NoteElement = memo(({ note }: { note: TBasicNote }) => {
                     </span>
                     <div className="flex flex-col leading-none">
                         <span className="text-[0.6rem] text-muted-foreground">Partagé avec</span>
-                        <span className="text-neutral-500 text-sm font-medium">{note?.sharedWithCount || 0} amis(es)</span>
+                        {isOwner ? <span className="text-neutral-500 text-sm font-medium">{note?.sharedWithCount || 0} amis(es)</span> : <span className="text-neutral-500 text-3xl font-medium leading-7 -mb-3">*****</span>}
                     </div>
                 </div>
                 <div className="flex items-center gap-2">

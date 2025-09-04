@@ -7,7 +7,7 @@ import { memo } from "react";
 
 export const NoData = memo(() => {
     return (
-        <div className="flex flex-col items-center justify-center min-h-[calc(60vh-12rem)]">
+        <div className="flex flex-col items-center justify-center min-h-[calc(90vh-12rem)]">
             <EmptyNoteIllustrations />
             {/* Text */}
             <motion.p
@@ -42,7 +42,7 @@ export const NoData = memo(() => {
 
 export const NoPublicData = memo(({ text }: { text?: string }) => {
     return (
-        <div className="flex flex-col items-center justify-center min-h-[calc(60vh-12rem)]">
+        <div className="flex flex-col items-center justify-center min-h-[calc(90vh-12rem)]">
             <EmptyNoteIllustrations />
             {/* Text */}
             <motion.p
