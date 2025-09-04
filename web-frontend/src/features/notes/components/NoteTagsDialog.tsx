@@ -1,11 +1,13 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import useNoteEditor from "@/features/notes/store/noteEditorStore";
 import TagsSelect from "@/features/notes/components/TagsSelect";
-import { XIcon } from "lucide-react";
+import { Loader2, XIcon } from "lucide-react";
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import useGetTags from "../query/getTagsQuery";
 
 export default function NoteTagsDialog({ children }: { children: ReactNode }) {
+    const { data, isPending } = useGetTags();
     const { tags, setTags } = useNoteEditor();
     return (
         <Dialog>
@@ -24,9 +26,10 @@ export default function NoteTagsDialog({ children }: { children: ReactNode }) {
                             ) : (
                                 <>
                                     {tags.map((tag) => {
-                                        const tagInstance = systemTags.find((sysTag) => sysTag.id == tag);
+                                        const tagInstance = (data?.tags || []).find((sysTag) => sysTag.id == tag);
 
                                         if (!tagInstance) return;
+
                                         return (
                                             <Tag
                                                 key={tag}
@@ -40,9 +43,14 @@ export default function NoteTagsDialog({ children }: { children: ReactNode }) {
                                 </>
                             )}
                         </div>
-                        <div className="mt-4">
+                        <div className="mt-4 relative">
+                            {isPending && (
+                                <div className="absolute z-10 bg-white/80 inset-0 flex items-center justify-center">
+                                    <Loader2 className="animate-spin size-6 text-teal-500" />
+                                </div>
+                            )}
                             <TagsSelect
-                                tags={systemTags}
+                                tags={data?.tags || []}
                                 onSelect={(state) => {
                                     if (state.selected) {
                                         setTags((prev) => [...new Set([...prev, state.id])]);
@@ -59,24 +67,6 @@ export default function NoteTagsDialog({ children }: { children: ReactNode }) {
         </Dialog>
     );
 }
-
-const systemTags = [
-    { id: "1", name: "Travail" },
-    { id: "2", name: "Études" },
-    { id: "3", name: "Projet" },
-    { id: "4", name: "Idée" },
-    { id: "5", name: "Personnel" },
-    { id: "6", name: "Urgent" },
-    { id: "7", name: "Lecture" },
-    { id: "8", name: "Recherche" },
-    { id: "9", name: "Tâches" },
-    { id: "10", name: "Inspiration" },
-    { id: "11", name: "Référence" },
-    { id: "12", name: "Meeting" },
-    { id: "13", name: "Documentation" },
-    { id: "14", name: "Checklist" },
-    { id: "15", name: "Brainstorm" },
-];
 
 function Tag({ tag, onRemove }: { tag: { id: string; name: string }; onRemove?: (id: string) => void }) {
     return (

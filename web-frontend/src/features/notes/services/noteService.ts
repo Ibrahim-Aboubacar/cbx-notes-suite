@@ -7,6 +7,7 @@ type TNoteServiceResponse = {
         id: string;
     };
     TGet: TNote[]
+    TGetTags: { tags: TTag[] }
 };
 
 
@@ -110,4 +111,18 @@ export const NoteService = {
                 throw err;
             });
     },
+
+    getTags: async () => {
+        return await api
+            .get<TNoteServiceResponse["TGetTags"]>("api/v1/tags")
+            .then((res) => {
+                if (res.status === 200) {
+                    return res.data;
+                }
+                throw new Error(res.status.toString());
+            })
+            .catch((err) => {
+                throw err;
+            });
+    }
 };
