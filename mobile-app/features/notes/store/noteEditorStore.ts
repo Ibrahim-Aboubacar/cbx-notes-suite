@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-type TInputTag = { id: string, value: string }
 type TNoteEditorStore = {
     id: TUuid | null;
     note: string;
@@ -13,8 +12,10 @@ type TNoteEditorStore = {
     tags: string[];
     isPublic: boolean;
     expirationDate: string;
-    friendEmails: TInputTag[];
-    setFriendEmails: (emails: TInputTag[]) => void;
+    friendEmails: string[];
+    setId: (id: TUuid) => void;
+    setFriendEmails: (emails: string[]) => void;
+    addFriendEmail: (email: string) => void
     setExpirationDate: (date: Date) => void;
     toggleIsPublic: (isPublic: TNoteEditorStore["isPublic"]) => void;
     setNote: (note: TNoteEditorStore["note"]) => void;
@@ -36,7 +37,9 @@ const useNoteEditor = create(
             isPublic: false,
             expirationDate: new Date().toString(),
             friendEmails: [],
+            setId: (id) => set({ id }),
             setFriendEmails: (emails) => set({ friendEmails: emails }),
+            addFriendEmail: (email: string) => set({ friendEmails: [...new Set([...get().friendEmails, email])] }),
             setExpirationDate: (date) => set({ expirationDate: date.toString() }),
             toggleIsPublic: (isPublic) => set({ isPublic }),
             setNote: (note) => set({ note, wordsCount: Helper.wordCount(note) }),

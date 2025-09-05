@@ -1,7 +1,8 @@
-import { useToggle } from "react-use";
-import { useQueryClient } from "@tanstack/react-query";
+import useToggle from "@/hooks/useToggle";
 import { ToastService } from "@/services/toastService/toastService";
-import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+// import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import useDeleteNoteQuery from "../query/deleteNoteQuery";
 import useDleteNoteModalStore from "../store/deleteNoteModalStore";
@@ -9,8 +10,8 @@ import useDleteNoteModalStore from "../store/deleteNoteModalStore";
 export default function useDeleteNote() {
     const queryClient = useQueryClient();
     const { modalOpenToOpen, toggleModaltoOpen } = useDleteNoteModalStore();
-
-    const navigate = useNavigate();
+    const { replace } = useRouter()
+    // const navigate = useNavigate();
 
     const [isPending, togglePending] = useToggle(false);
     const { mutateAsync: deleteNote } = useDeleteNoteQuery();
@@ -44,8 +45,9 @@ export default function useDeleteNote() {
             });
         }, 300);
         toggleModaltoOpen("");
-        navigate({ to: `/notes`, replace: true });
-    }, [toggleModaltoOpen, navigate]);
+        replace({ pathname: "/(auth)" })
+        // navigate({ to: `/notes`, replace: true });
+    }, [toggleModaltoOpen, replace, queryClient]);
 
     const catchError = useCallback((err: any) => {
         ToastService.error({

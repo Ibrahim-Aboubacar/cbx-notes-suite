@@ -77,7 +77,7 @@ export const AddNoteContentScreenNextButton = () => {
         });
     }
     return (
-        <Pressable disabled={isDisabled} onPress={handlePress} className={cn('flex-row items-center rounded-full  px-5 py-2', isDisabled && 'opacity-75')}>
+        <Pressable disabled={isDisabled} onPress={handlePress} className={cn('flex-row items-center rounded-full py-2 pl-5', isDisabled && 'opacity-75')}>
             <Text className={cn('font-RobotoMedium text-xl text-teal-600', isDisabled && 'text-neutral-400')}>Suivant</Text>
             <ChevronRight size={22} strokeWidth={2} color={isDisabled ? '#ccc' : '#0d9488'} />
         </Pressable>

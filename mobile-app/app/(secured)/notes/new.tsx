@@ -9,7 +9,7 @@ import { Pressable, Text, View } from 'react-native';
 export default function NewNoteScreen() {
     const { setTitle, title } = useNoteEditor();
     return (
-        <View className="relative bg-teal-50 px-6 pt-0">
+        <View className="relative flex-1 bg-teal-50 px-6 pt-0">
             <View className="justify-center ">
                 <View className="">
                     <Text className="mb-2 font-medium text-xl text-slate-800">Titre : </Text>
@@ -47,7 +47,7 @@ export const AddNoteTitleScreenNextButton = () => {
         });
     }
     return (
-        <Pressable disabled={isDisabled} onPress={handlePress} className={cn('flex-row items-center rounded-full  px-5 py-2', isDisabled && 'opacity-75')}>
+        <Pressable disabled={isDisabled} onPress={handlePress} className={cn('flex-row items-center rounded-full py-2 pl-5', isDisabled && 'opacity-75')}>
             <Text className={cn('font-RobotoMedium text-xl text-teal-600', isDisabled && 'text-neutral-400')}>Suivant</Text>
             <ChevronRight size={22} strokeWidth={2} color={isDisabled ? '#ccc' : '#0d9488'} />
         </Pressable>

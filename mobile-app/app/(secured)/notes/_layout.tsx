@@ -2,7 +2,9 @@ import PageHeader from '@/components/AppHeader/PageHeader';
 import { Stack } from 'expo-router';
 import { AddNoteTitleScreenNextButton } from './new';
 import { AddNoteContentScreenNextButton } from './note-content';
+import { AddNoteFreindsScreenNextButton } from './set-freinds';
 import { AddNoteTagsSelectScreenNextButton } from './tags-select';
+import { AddNoteVisibilitySettingScreenNextButton } from './visibility-setting';
 
 export default function NotesLayout() {
     return (
@@ -36,6 +38,24 @@ export default function NotesLayout() {
                     headerShown: true,
                     headerBackVisible: true,
                     headerRight: () => <AddNoteTagsSelectScreenNextButton />,
+                }}
+            />
+            <Stack.Screen
+                name="visibility-setting"
+                options={{
+                    title: 'Visibilité',
+                    headerShown: true,
+                    headerBackVisible: true,
+                    headerRight: () => <AddNoteVisibilitySettingScreenNextButton />,
+                }}
+            />
+            <Stack.Screen
+                name="set-freinds"
+                options={{
+                    title: 'Partager',
+                    headerShown: true,
+                    headerBackVisible: true,
+                    headerRight: () => <AddNoteFreindsScreenNextButton />,
                 }}
             />
             <Stack.Screen name="[id]" options={{ headerShown: false }} />

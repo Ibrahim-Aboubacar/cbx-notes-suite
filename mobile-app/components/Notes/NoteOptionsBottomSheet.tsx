@@ -1,6 +1,9 @@
 import useUser from '@/features/auth/hooks/useUser';
+import { getNoteQueryOptions } from '@/features/notes/query/getNoteQuery';
+import useNoteEditor from '@/features/notes/store/noteEditorStore';
 import { VibrationService } from '@/services/VibrationService';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { Edit, Eye, Trash2 } from 'lucide-react-native';
 import { memo, RefObject } from 'react';
@@ -20,6 +23,8 @@ export const NoteOptionsBottomSheet = memo(
         onChange: (index: number) => void;
         onDeletePress?: () => void;
     }) => {
+        const queryClient = useQueryClient();
+        const { setData } = useNoteEditor();
         const { push } = useRouter();
         const {
             data: { data },
@@ -36,6 +41,16 @@ export const NoteOptionsBottomSheet = memo(
         const handleEditNote = () => {
             if (selectedNote) {
                 VibrationService.selectionChange();
+                setData({
+                    id: selectedNote.id,
+                    title: selectedNote.title,
+                    note: selectedNote.content,
+                    tags: selectedNote.tags.map((tag) => tag.id),
+                    isPublic: selectedNote.isPublic,
+                    expirationDate: new Date(selectedNote.expirationDate).toString(),
+                    friendEmails: [],
+                });
+                queryClient.prefetchQuery(getNoteQueryOptions({ noteId: selectedNote.id }));
                 sheetRef.current?.close();
                 push({ pathname: '/(secured)/notes/[id]/edit', params: { id: selectedNote.id } });
             }
@@ -56,27 +71,27 @@ export const NoteOptionsBottomSheet = memo(
                 onChange={onChange}>
                 <BottomSheetView className="flex-1 gap-2 p-6 pt-0">
                     <View className="h-10">
-                        <Text className="mt-0 text-xl font-bold text-center text-slate-600">Options</Text>
+                        <Text className="mt-0 text-center font-bold text-xl text-slate-600">Options</Text>
                     </View>
                     <View className="gap-3">
-                        <TouchableOpacity onPress={handleOpenNote} className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-neutral-100">
+                        <TouchableOpacity onPress={handleOpenNote} className="h-14 flex-row items-center gap-5 rounded-lg bg-neutral-100 px-6">
                             <Eye size={22} color="#525252" />
-                            <Text className="text-xl font-medium text-neutral-600">Ouvrir la note</Text>
+                            <Text className="font-medium text-xl text-neutral-600">Ouvrir la note</Text>
                         </TouchableOpacity>
                         {isOwner && (
                             <>
-                                <TouchableOpacity onPress={handleEditNote} className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-neutral-100">
+                                <TouchableOpacity onPress={handleEditNote} className="h-14 flex-row items-center gap-5 rounded-lg bg-neutral-100 px-6">
                                     <Edit size={22} color="#525252" />
-                                    <Text className="text-xl font-medium text-neutral-600">Modifier la note</Text>
+                                    <Text className="font-medium text-xl text-neutral-600">Modifier la note</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => {
                                         sheetRef.current?.close();
                                         onDeletePress?.();
                                     }}
-                                    className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-red-50">
+                                    className="h-14 flex-row items-center gap-5 rounded-lg bg-red-50 px-6">
                                     <Trash2 size={22} color="#dc2626" />
-                                    <Text className="text-xl font-medium text-red-600">Supprimer la note</Text>
+                                    <Text className="font-medium text-xl text-red-600">Supprimer la note</Text>
                                 </TouchableOpacity>
                             </>
                         )}
