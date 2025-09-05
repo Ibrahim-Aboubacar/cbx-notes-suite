@@ -1,5 +1,7 @@
 import useUser from '@/features/auth/hooks/useUser';
+import { VibrationService } from '@/services/VibrationService';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useRouter } from 'expo-router';
 import { Edit, Eye, Trash2 } from 'lucide-react-native';
 import { memo, RefObject } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
@@ -18,10 +20,26 @@ export const NoteOptionsBottomSheet = memo(
         onChange: (index: number) => void;
         onDeletePress?: () => void;
     }) => {
+        const { push } = useRouter();
         const {
             data: { data },
         } = useUser();
         const isOwner = !!(selectedNote ? data?.user?.id === selectedNote?.user.id : false);
+
+        const handleOpenNote = () => {
+            if (selectedNote) {
+                VibrationService.selectionChange();
+                sheetRef.current?.close();
+                push({ pathname: '/(secured)/notes/[id]', params: { id: selectedNote.id } });
+            }
+        };
+        const handleEditNote = () => {
+            if (selectedNote) {
+                VibrationService.selectionChange();
+                sheetRef.current?.close();
+                push({ pathname: '/(secured)/notes/[id]/edit', params: { id: selectedNote.id } });
+            }
+        };
         return (
             <BottomSheet
                 //
@@ -41,13 +59,13 @@ export const NoteOptionsBottomSheet = memo(
                         <Text className="mt-0 text-xl font-bold text-center text-slate-600">Options</Text>
                     </View>
                     <View className="gap-3">
-                        <TouchableOpacity className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-neutral-100">
+                        <TouchableOpacity onPress={handleOpenNote} className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-neutral-100">
                             <Eye size={22} color="#525252" />
                             <Text className="text-xl font-medium text-neutral-600">Ouvrir la note</Text>
                         </TouchableOpacity>
                         {isOwner && (
                             <>
-                                <TouchableOpacity className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-neutral-100">
+                                <TouchableOpacity onPress={handleEditNote} className="flex-row items-center gap-5 px-6 rounded-lg h-14 bg-neutral-100">
                                     <Edit size={22} color="#525252" />
                                     <Text className="text-xl font-medium text-neutral-600">Modifier la note</Text>
                                 </TouchableOpacity>

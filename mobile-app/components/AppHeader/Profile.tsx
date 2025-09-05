@@ -6,7 +6,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 export default function Profile() {
     const router = useRouter();
-    const { initials, userName } = useUser();
+    const { initials, user } = useUser();
 
     function handlePress() {
         VibrationService.selectionChange();
@@ -19,7 +19,7 @@ export default function Profile() {
             </View>
             <View>
                 <Text className="text-lg font-medium leading-5">Salut !</Text>
-                <Text className="text-2xl leading-6 font-RobotoBold">{userName}</Text>
+                <Text className="text-2xl leading-6 font-RobotoBold">{user?.pseudo}</Text>
             </View>
         </TouchableOpacity>
     );

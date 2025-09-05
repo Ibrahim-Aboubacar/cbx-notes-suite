@@ -19,9 +19,7 @@ export default function TabLayout() {
             tabBar={(props) => <TabBar {...props} />}
             screenOptions={{
                 headerShown: true,
-                header(props) {
-                    return <Header {...props} />;
-                },
+                header: (props) => <Header {...props} />,
                 headerRight: () => <Profile />,
             }}>
             <Tabs.Screen name="index" options={{ title: 'Accueil', animation: 'fade' }} />

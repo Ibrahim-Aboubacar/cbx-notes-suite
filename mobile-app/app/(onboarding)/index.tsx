@@ -15,30 +15,30 @@ export default function OnboardingPage() {
     };
 
     return (
-        <SafeAreaView className="flex-1 bg-white relaive">
+        <SafeAreaView className="relaive flex-1 bg-white">
             <View className="flex-1"></View>
-            <View className="absolute -top-6 left-0 right-0 h-[60%]">
-                <View className="absolute top-0 bottom-0 left-0 right-0 z-10 bg-teal-800/50" />
-                <Image source={OpenNoteIllustration} className="w-full h-full" />
+            <View className="absolute -top-3 left-0 right-0 h-[65%]">
+                <View className="absolute bottom-0 left-0 right-0 top-0 z-10 bg-teal-600" />
+                <Image source={OpenNoteIllustration} className="z-20 h-full w-full opacity-50" />
             </View>
-            <View className="z-20 flex-1 items-center rounded-t-[2rem] bg-white p-6 pt-2">
-                <View className="flex items-center mt-10 text-black">
-                    <Text className="px-3 py-1 mb-2 text-lg font-medium text-teal-600 bg-teal-100 border border-teal-300 rounded-2xl">{'Prenez des notes'}</Text>
+            <View className="z-20 flex-1 items-center rounded-t-[2rem] bg-white p-6 pt-0">
+                <View className="mt-6 flex items-center text-black">
+                    <Text className="mb-2 rounded-2xl border border-teal-300 bg-teal-100 px-3 py-1 font-medium text-lg text-teal-600">{'Prenez des notes'}</Text>
 
-                    <Text className="text-4xl font-bold text-black">
+                    <Text className="font-bold text-3xl text-black">
                         <Text className="text-teal-600">Collaborez</Text> & <Text className="text-teal-600">Synchronisez</Text>
                     </Text>
-                    <Text className="text-4xl font-bold text-black">partout</Text>
-                    <Text className="mt-4 text-2xl text-center text-gray-600">
+                    <Text className="font-bold text-3xl text-black">partout</Text>
+                    <Text className="mt-4 text-center text-xl text-gray-600">
                         <Text className="">{"CoNote est l'application de gestion de notes collaborative, sécurisée et multi-plateforme. "}</Text>
                         <Text className="">{'Créez, organisez et partagez vos idées, en ligne ou hors ligne.'}</Text>
                     </Text>
                 </View>
-                <View className="flex-row gap-4 pt-10 pb-3 mt-auto">
+                <View className="mt-auto flex-row gap-4 pb-3 pt-10">
                     <Button
                         title={
                             <View className="flex-row items-center gap-3">
-                                <Text className="text-2xl font-bold text-teal-50">Créer ma première note</Text>
+                                <Text className="text-xl font-semibold text-teal-50">Créer ma première note</Text>
                                 <ArrowRight size={25} color="#f0fdfa" />
                             </View>
                         }
@@ -46,7 +46,7 @@ export default function OnboardingPage() {
                         className="w-full"
                     />
                 </View>
-                <View className="flex-row gap-4 pb-10 mt-auto">
+                <View className="mt-auto flex-row gap-4 pb-10">
                     <ButtonSecondary title="Se connecter" onPress={handlePress} className="w-full" />
                 </View>
             </View>

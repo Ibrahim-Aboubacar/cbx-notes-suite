@@ -1,17 +1,17 @@
+import { ToastService } from "@/services/toastService/toastService";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
 import { useToggle } from "react-use";
 import useSaveNoteQuery from "../query/saveNoteQuery";
-import useNoteEditor from "../store/noteEditorStore";
-import { useQueryClient } from "@tanstack/react-query";
-import { ToastService } from "@/services/toastService/toastService";
-import { useNavigate } from "@tanstack/react-router";
 import useUpdateNoteQuery from "../query/updateNoteQuery";
-import { useCallback } from "react";
+import useNoteEditor from "../store/noteEditorStore";
 
 export default function useSaveNote({ isEdit }: { isEdit: boolean }) {
     const queryClient = useQueryClient();
     const { id, note: content, isPublic, expirationDate, friendEmails, tags, title, resetData } = useNoteEditor();
     const [open, toggleOpen] = useToggle(false);
-    const navigate = useNavigate();
+    const { replace } = useRouter();
 
     const [isPending, togglePending] = useToggle(false);
     const { mutateAsync: createNote } = useSaveNoteQuery();
@@ -78,9 +78,10 @@ export default function useSaveNote({ isEdit }: { isEdit: boolean }) {
                 });
             }, 300);
             toggleOpen(false);
-            navigate({ to: `/notes/${response.id}`, replace: true });
+            // 
+            replace(`/(secured)/notes/${response.id}`);
         },
-        [toggleOpen, navigate],
+        [toggleOpen, replace, resetData, queryClient],
     );
 
     const catchError = useCallback((err: any) => {
