@@ -1,11 +1,9 @@
+import useTokenStore from '@/features/auth/store/tokenStore';
+import { cn } from '@/lib/utils';
+import { Link } from 'expo-router';
+import { CalendarRange, Earth, Ellipsis, Lock, TagIcon, UsersRound } from 'lucide-react-native';
 import { memo } from 'react';
 import { Platform, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-
-import { Link } from 'expo-router'; // ou ton système de routing
-// import ReactMarkdown from "react-native-markdown-display";
-import useTokenStore from '@/features/auth/store/tokenStore';
-import { cn } from '@/lib/utils'; // si tu as un utilitaire cn
-import { CalendarRange, Earth, Ellipsis, Lock, TagIcon, UsersRound } from 'lucide-react-native';
 import Markdown from 'react-native-markdown-display';
 
 export const NoteCard = memo(({ note, onOptionPress }: { note: TBasicNote; onOptionPress: (note: TBasicNote) => void }) => {
@@ -18,20 +16,19 @@ export const NoteCard = memo(({ note, onOptionPress }: { note: TBasicNote; onOpt
             className="flex min-h-64 flex-col rounded-3xl border border-neutral-200 bg-white"
             //
             style={{ padding: 16 }}>
-            {/* <DeleteNoteAlert note={note} /> */}
             <View className="flex-1">
                 {/* Header */}
                 <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center gap-2">
-                        <View className="size-9 items-center justify-center rounded-full bg-teal-600">
-                            <Text className="font-medium text-teal-50">{user.pseudo.charAt(0).toUpperCase()}</Text>
+                        <View className="size-14 items-center justify-center rounded-full bg-teal-600">
+                            <Text className="font-medium text-2xl text-teal-50">{user.pseudo.charAt(0).toUpperCase()}</Text>
                         </View>
                         <View className="flex flex-col leading-none">
-                            <Text className="text-lg font-semibold leading-6">{isOwner ? 'Vous' : user.pseudo}</Text>
-                            <Text className="leading-4 text-neutral-600">{user.email}</Text>
+                            <Text className="text-xl font-semibold leading-6">{isOwner ? 'Vous' : user.pseudo}</Text>
+                            <Text className="text-lg leading-6 text-neutral-600">{user.email}</Text>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={() => onOptionPress(note)} className="flex size-9 flex-col items-center justify-center rounded-lg border border-teal-500 leading-none">
+                    <TouchableOpacity onPress={() => onOptionPress(note)} className="flex size-10 flex-col items-center justify-center rounded-lg border border-teal-500 leading-none">
                         <Ellipsis size={20} color="#14b8a6" />
                     </TouchableOpacity>
                 </View>

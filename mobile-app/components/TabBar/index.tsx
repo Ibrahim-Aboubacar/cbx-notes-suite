@@ -60,13 +60,13 @@ function NavBarItem({ state, descriptors, navigation, route, index }: NavBarItem
             onLongPress={onLongPress}
             className="max-w-26 h-20 flex-1 items-center justify-center gap-1 rounded-[1.5rem]">
             <View
-                className={cn('h-10 w-16 items-center justify-center', isFocused ? 'bg-teal-100/80' : '')}
+                className={cn('h-10 w-24 items-center justify-center', isFocused ? 'bg-teal-100/80' : '')}
                 style={{
                     borderRadius: isFocused ? 22 : 0,
                 }}>
                 <TabBarIcon name={route.name} color={isFocused ? '#0f766e' : '#64748b'} />
             </View>
-            <Text className={cn('text-base ', isFocused ? 'font-semibold text-teal-700' : 'text-slate-500')}>{label as string}</Text>
+            <Text className={cn('text-[13px]', isFocused ? 'font-semibold text-teal-700' : 'text-slate-500')}>{label as string}</Text>
         </TouchableOpacity>
     );
 }
