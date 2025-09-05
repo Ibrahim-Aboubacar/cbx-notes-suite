@@ -2,7 +2,6 @@ import axios from "axios";
 import type { AxiosError, AxiosResponse } from "axios";
 import { env } from "@/env";
 import { version } from "@/../package.json";
-import { Helper } from "@/lib/Helpers";
 import { getTokenStore } from "@/features/auth/store/tokenStore";
 
 const DOMAIN = env.api_url;
