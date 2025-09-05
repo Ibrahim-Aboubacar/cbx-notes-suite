@@ -45,9 +45,7 @@ export const NoteDetailsMetaData = memo(({ note }: { note: TDetailedNote }) => {
                     </View>
                     <View className="">
                         <Text className="mt-1 text-sm leading-4 text-neutral-500">Visibilité</Text>
-                        <Text className={cn('font-RobotoMedium text-lg leading-5 text-neutral-600', hasExpired ? 'text-red-600' : 'text-teal-600')}>
-                            {note.isPublic ? 'Note Publique' : 'Note Privée'}
-                        </Text>
+                        <Text className={cn('font-RobotoMedium text-lg leading-5 text-neutral-600', hasExpired ? 'text-red-600' : 'text-teal-600')}>{note.isPublic ? 'Publique' : 'Privée'}</Text>
                     </View>
                 </View>
                 {/* Créé le */}
@@ -68,12 +66,12 @@ export const NoteDetailsMetaData = memo(({ note }: { note: TDetailedNote }) => {
                     <Text className="font-RobotoMedium text-lg text-neutral-600">Tags ({note.tags.length}) : </Text>
                 </View>
                 <View className="mt-1 flex-row items-center gap-2">
-                    {note.tags.slice(0, 5).map((tag) => (
+                    {note.tags.slice(0, 3).map((tag) => (
                         <Text key={tag.id} className="rounded-full border border-teal-600 bg-teal-100 px-3 py-1 font-RobotoMedium text-sm text-teal-700">
                             {tag.name}
                         </Text>
                     ))}
-                    {note.tags.length > 5 && <Text className="text-sm text-neutral-600">+ {note.tags.length - 5} plus</Text>}
+                    {note.tags.length > 3 && <Text className="text-sm text-neutral-600">+ {note.tags.length - 3} plus</Text>}
                 </View>
             </View>
         </>
