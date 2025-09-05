@@ -11,7 +11,18 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data1
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - conote-network
+
+  backend:
+    build: .
+    container_name: spring-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
     networks:
       - conote-network
 
