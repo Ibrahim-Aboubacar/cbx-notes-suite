@@ -46,7 +46,7 @@ public class NoteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<GetNoteResponse> getNote(@PathVariable UUID id){
-        return ResponseEntity.ok(noteService.getNote(id, true));
+        return ResponseEntity.ok(noteService.getNote(id));
     }
 
     @DeleteMapping("/{id}")

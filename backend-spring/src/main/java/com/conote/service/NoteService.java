@@ -131,7 +131,7 @@ public class NoteService {
         return new UpdateNoteResponse(noteId);
     }
 
-    public GetNoteResponse getNote(UUID noteId, Boolean isPublic) {
+    public GetNoteResponse getNote(UUID noteId) {
         User authenticatedUser = authenticatedService.getUser();
 
         Optional<Note> note = noteRepository.findById(noteId);
@@ -140,33 +140,23 @@ public class NoteService {
             throw new NoSuchElementException("Note non trouvé!");
         }
 
-        if (note.get().getIsPublic()) {
-            if (note.get().getExpirationDate().isAfter(LocalDateTime.now())) {
-                throw new NoSuchElementException("Note non trouvé!");
-            }
-            // we don't return thr shared with users if the note is viewed by owner
-            return new GetNoteResponse(new DetailedNoteDto(note.get(), authenticatedUser.getId() == note.get().getUser().getId()));
-        }
-
+//        ensure note is mine or shared with me
         if (authenticatedUser.getId() == note.get().getUser().getId() || note.get().getSharedWith().contains(authenticatedUser)) {
             return new GetNoteResponse(new DetailedNoteDto(note.get(), authenticatedUser.getId() == note.get().getUser().getId()));
         }
 
-        throw new NoSuchElementException("Note non trouvé!");
 
-//            if (isPublic && note.get().getIsPublic()) {
-//                // If note has expired set it to not found
-//                if (note.get().getExpirationDate().isAfter(LocalDateTime.now())) {
-//                }
-//                // we don't return thr shared with users if the note is publicly viewed
-//                return new GetNoteResponse(new DetailedNoteDto(note.get(), false));
-//            }
-//            // Verify that user owns that note if not looking for public
-//            if (note.get().getUser().getId() == authenticatedUser.getId()) {
-//                return new GetNoteResponse(new DetailedNoteDto(note.get(), true));
-//            }
+//        ensure note is public
+        if(!note.get().getIsPublic()){
+            throw new NoSuchElementException("Note non trouvé!");
+        }
 
+//        ensure not is not expired
+        if(note.get().getExpirationDate().isBefore(LocalDateTime.now())){
+            throw new NoSuchElementException("Note non trouvé!");
+        }
 
+        return new GetNoteResponse(new DetailedNoteDto(note.get(), false));
     }
 
     public DeleteNoteResponse deleteNote(UUID noteId) {
