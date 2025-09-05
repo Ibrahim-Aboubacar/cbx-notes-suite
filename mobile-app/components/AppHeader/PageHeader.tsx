@@ -15,16 +15,16 @@ export default function PageHeader({ options }: NativeStackHeaderProps) {
     }
     return (
         <View className="flex-row items-center justify-between bg-teal-50" style={{ paddingTop: insets.top }}>
-            <View className="flex-row items-center justify-between w-full h-20 px-6">
+            <View className="h-20 w-full flex-row items-center justify-between px-6">
                 <View className="flex-row items-center gap-3">
                     {options.headerBackVisible && (
-                        <TouchableOpacity onPress={handleBack} className="items-center justify-center bg-white border border-teal-400 rounded-lg size-12">
+                        <TouchableOpacity onPress={handleBack} className="size-12 items-center justify-center rounded-lg border border-teal-400 bg-white">
                             <ArrowLeft size={22} strokeWidth={1.5} color="#14b8a6" />
                         </TouchableOpacity>
                     )}
-                    <Text className="text-3xl font-RobotoBold text-slate-800">{options.title}</Text>
+                    <Text className="font-RobotoBold text-3xl text-slate-800">{options.title}</Text>
                 </View>
-                {options?.headerRight && options.headerRight({})}
+                {options?.headerRight && options.headerRight({ tintColor: '#14b8a6', canGoBack: options.headerBackVisible })}
             </View>
         </View>
     );

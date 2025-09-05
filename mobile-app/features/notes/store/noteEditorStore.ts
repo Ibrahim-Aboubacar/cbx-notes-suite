@@ -1,8 +1,10 @@
-import type { TInputTag } from "@/components/ui/TagInput";
+// import type { TInputTag } from "@/components/ui/TagInput";
 import { Helper } from "@/lib/Helpers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
+type TInputTag = { id: string, value: string }
 type TNoteEditorStore = {
     id: TUuid | null;
     note: string;
@@ -17,6 +19,7 @@ type TNoteEditorStore = {
     toggleIsPublic: (isPublic: TNoteEditorStore["isPublic"]) => void;
     setNote: (note: TNoteEditorStore["note"]) => void;
     setTags: (tags: TNoteEditorStore["tags"] | ((prev: TNoteEditorStore["tags"]) => TNoteEditorStore["tags"])) => void;
+    addTag: (tag: string) => void;
     setTitle: (title: TNoteEditorStore["title"]) => void;
     setData: (data: Pick<TNoteEditorStore, "note" | "title" | "tags" | "isPublic" | "expirationDate" | "friendEmails"> & { id?: TUuid }) => void;
     resetData: () => void;
@@ -45,6 +48,9 @@ const useNoteEditor = create(
                     set({ tags: tags });
                 }
             },
+            addTag: (tag) => {
+                set({ tags: [...get().tags, tag] });
+            },
             setData: (data) => set({ ...data, wordsCount: Helper.wordCount(data.note) }),
             resetData: () =>
                 set({
@@ -60,7 +66,7 @@ const useNoteEditor = create(
         }),
         {
             name: "note-editor",
-            storage: createJSONStorage(() => localStorage),
+            storage: createJSONStorage(() => AsyncStorage),
         },
     ),
 );

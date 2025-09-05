@@ -1,12 +1,16 @@
+import { NoteService } from "@/features/notes/services/noteService";
+import type { UseQueryOptions } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import type { UseQueryOptions } from "@tanstack/react-query";
-import { NoteService } from "@/features/notes/services/noteService";
 
 type ResponseType = Awaited<ReturnType<typeof NoteService.getTags>>;
 
 export default function useGetTags(options?: Partial<UseQueryOptions<any, AxiosError, ResponseType>>) {
-    return useQuery({
+    return useQuery(getTagsQueryOptions(options));
+}
+
+export const getTagsQueryOptions = (options?: Partial<UseQueryOptions<any, AxiosError, ResponseType>>) => {
+    return {
         queryKey: ["tags", "get"],
         queryFn: async () => {
             try {
@@ -25,5 +29,5 @@ export default function useGetTags(options?: Partial<UseQueryOptions<any, AxiosE
         refetchOnMount: false,
         refetchOnWindowFocus: false,
         ...options,
-    });
+    }
 }
