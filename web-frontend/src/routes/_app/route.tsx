@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import { PendingComponent } from "@/components/layout/PendingComponent";
 import { getUserQueryOpions, type TGetUserQuery } from "@/features/auth/hooks/useUser";
-import { getOtpTokenStore } from "@/features/auth/store/otpTokenStore";
+import { getTokenStore } from "@/features/auth/store/tokenStore";
 import { ToastService } from "@/services/toastService/toastService";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_app")({
                 replace: true,
             });
         } else {
-            const authStore = getOtpTokenStore();
+            const authStore = getTokenStore();
 
             authStore.setData({
                 token: authStore.token,

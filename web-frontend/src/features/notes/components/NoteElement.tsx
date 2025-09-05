@@ -1,4 +1,4 @@
-import useOtpTokenStore from "@/features/auth/store/otpTokenStore";
+import useTokenStore from "@/features/auth/store/tokenStore";
 import { CalendarRange, Earth, Lock, TagIcon, UsersRound } from "lucide-react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
@@ -14,7 +14,7 @@ import { getNoteQueryOptions } from "../query/getNoteQuery";
 const NoteElement = memo(({ note }: { note: TBasicNote }) => {
     const queryClient = useQueryClient();
     const [hasBeenPrefetched, toggleHasBeenPrefetched] = useToggle(false);
-    const { user: authUser } = useOtpTokenStore();
+    const { user: authUser } = useTokenStore();
     const user: TUser = note.user;
 
     const isOwner = authUser?.id == note.user.id;

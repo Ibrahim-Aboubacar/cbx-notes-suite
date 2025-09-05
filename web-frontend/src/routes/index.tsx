@@ -1,7 +1,7 @@
 import LandingPage from "@/components/layout/LandingPage";
 import { PendingComponent } from "@/components/layout/PendingComponent";
 import { getUserQueryOpions, type TGetUserQuery } from "@/features/auth/hooks/useUser";
-import { getOtpTokenStore } from "@/features/auth/store/otpTokenStore";
+import { getTokenStore } from "@/features/auth/store/tokenStore";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
         }
 
         if (res.success && res.data?.user) {
-            const authStore = getOtpTokenStore();
+            const authStore = getTokenStore();
 
             authStore.setData({
                 token: authStore.token,

@@ -3,7 +3,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 import { env } from "@/env";
 import { version } from "@/../package.json";
 import { Helper } from "@/lib/Helpers";
-import { getOtpTokenStore } from "@/features/auth/store/otpTokenStore";
+import { getTokenStore } from "@/features/auth/store/tokenStore";
 
 const DOMAIN = env.api_url;
 
@@ -30,7 +30,7 @@ const api = axios.create({
 api.interceptors.response.use(responseInterceptor, errorInterceptor);
 
 api.interceptors.request.use((config) => {
-    const token = getOtpTokenStore().token;
+    const token = getTokenStore().token;
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
@@ -38,7 +38,6 @@ api.interceptors.request.use((config) => {
  * Response interceptor
  */
 async function responseInterceptor(response: AxiosResponse) {
-    await Helper.sleep(Helper.rand(1000, 2000));
     return response;
 }
 

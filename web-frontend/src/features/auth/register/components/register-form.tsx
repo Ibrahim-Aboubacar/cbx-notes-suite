@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToggle } from "react-use";
-import useOtpTokenStore from "../../store/otpTokenStore";
+import useTokenStore from "../../store/tokenStore";
 import useRegister from "../query/RegisterQuery";
 import { Link, useNavigate } from "@tanstack/react-router";
 import type z from "zod";
@@ -15,7 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 export function RegisterForm({ className, ...props }: React.ComponentProps<"form">) {
     const queryClient = useQueryClient();
     const [isLoading, toggleLoading] = useToggle(false);
-    const { setData } = useOtpTokenStore();
+    const { setData } = useTokenStore();
     const { mutateAsync } = useRegister();
     const navigate = useNavigate();
 

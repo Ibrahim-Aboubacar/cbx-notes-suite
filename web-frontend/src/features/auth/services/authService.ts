@@ -1,6 +1,6 @@
 import api from "@/integrations/axios/axios";
 import { AxiosError } from "axios";
-import { getOtpTokenStore } from "../store/otpTokenStore";
+import { getTokenStore } from "../store/tokenStore";
 
 type TAuthServiceResponse = {
     TLogin: {
@@ -136,7 +136,7 @@ export const AuthService = {
      * ```
      */
     logout: async () => {
-        const authStore = getOtpTokenStore();
+        const authStore = getTokenStore();
         authStore.resetData();
     },
 };

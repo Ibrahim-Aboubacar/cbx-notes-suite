@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-type TOtpTokenStore = {
+type TTokenStore = {
     token: string | null;
     user: TUser | null;
-    setData: (data: Omit<TOtpTokenStore, "setData" | "resetData">) => void;
+    setData: (data: Omit<TTokenStore, "setData" | "resetData">) => void;
     resetData: () => void;
 };
 
-const useOtpTokenStore = create(
-    persist<TOtpTokenStore>(
+const useTokenStore = create(
+    persist<TTokenStore>(
         (set) => ({
             token: null,
             user: null,
@@ -22,6 +22,6 @@ const useOtpTokenStore = create(
         },
     ),
 );
-export const getOtpTokenStore = () => useOtpTokenStore.getState();
+export const getTokenStore = () => useTokenStore.getState();
 
-export default useOtpTokenStore;
+export default useTokenStore;

@@ -1,7 +1,7 @@
 import { ChevronsUpDown, LogOutIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import useOtpTokenStore from "@/features/auth/store/otpTokenStore";
+import useTokenStore from "@/features/auth/store/tokenStore";
 import { Helper } from "@/lib/Helpers";
 import { useCallback } from "react";
 import { AuthService } from "@/features/auth/services/authService";
@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function UserMenu() {
     const queryClient = useQueryClient();
     const router = useRouter();
-    const { user: authUser, resetData } = useOtpTokenStore();
+    const { user: authUser, resetData } = useTokenStore();
     const user: TUser = authUser
         ? authUser
         : {
