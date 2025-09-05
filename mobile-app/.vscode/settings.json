@@ -1,0 +1,29 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.sortMembers": "explicit"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.expo": true,
+    "**/node_modules": false,
+    "**/app-env.d.ts": true,
+    "**/nativewind-env.d.ts": true,
+    "**/metro.config.js": true,
+    "**/cesconfig.jsonc": true,
+    "**/babel.config.js": true,
+    "**/pnpm-workspace.yaml": true,
+    "**/tsconfig.json": true,
+    "**/pnpm-lock.yaml": true,
+    "**/package-lock.json": true,
+    "**/prettier.config.js": true,
+    "**/.npmrc": true,
+    "**/expo-env.d.ts": true,
+    "**/eslint.config.js": true
+  }
+}
