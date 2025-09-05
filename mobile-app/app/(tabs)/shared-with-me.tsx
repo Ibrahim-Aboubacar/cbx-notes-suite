@@ -1,7 +1,9 @@
+import NoDataIllustration from '@/assets/SVGs/empty-note.svg';
 import { LoaderComponent } from '@/components/Notes/LoaderComponent';
 import { NoteOptionsBottomSheet } from '@/components/Notes/NoteOptionsBottomSheet';
 import useGetNotesQuery, { getNotesQueryOptions } from '@/features/notes/query/getNotesQuery';
 import NoteList from '@/features/notes/screens/NoteList';
+import { cn } from '@/lib/utils';
 import { VibrationService } from '@/services/VibrationService';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useQueryClient } from '@tanstack/react-query';
@@ -31,7 +33,7 @@ export default function SharedWithMeScreen() {
         VibrationService.selectionChange();
         bottomSheetRef.current?.expand();
     };
-
+    const isEmpty = !isPending && data && data.notes.length === 0;
     return (
         <GestureHandlerRootView className="relative">
             {isPending && <LoaderComponent />}
@@ -43,8 +45,16 @@ export default function SharedWithMeScreen() {
                 <View className="h-16 justify-center">
                     <Text className="font-bold text-3xl">Notes partagées avec moi</Text>
                 </View>
-                <View className="gap-5 pb-20 pt-2">
+                <View className={cn('gap-5 pb-20 pt-2', isEmpty && 'pb-0 pt-32')}>
                     <NoteList notes={data?.notes || []} onOptionPress={onOptionPress} />
+                    {isEmpty && (
+                        <View className="flex-1 items-center justify-center">
+                            <View className="gap-0">
+                                <NoDataIllustration width={270} height={270} />
+                                <Text className="mt-2 text-center font-medium text-lg text-neutral-500">Aucune note partagée avec vous</Text>
+                            </View>
+                        </View>
+                    )}
                 </View>
             </ScrollView>
             <NoteOptionsBottomSheet selectedNote={selectedNote} index={bottomSheetState} sheetRef={bottomSheetRef} onChange={handleSheetChanges} />

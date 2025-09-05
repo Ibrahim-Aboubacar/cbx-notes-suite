@@ -14,7 +14,7 @@
     "**/node_modules": true,
     "**/app-env.d.ts": true,
     "**/nativewind-env.d.ts": true,
-    "**/metro.config.js": true,
+    // "**/metro.config.js": true,
     "**/cesconfig.jsonc": true,
     "**/babel.config.js": true,
     "**/pnpm-workspace.yaml": true,
