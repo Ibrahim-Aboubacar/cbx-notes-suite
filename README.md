@@ -45,7 +45,7 @@ git clone https://github.com/Ibrahim-Aboubacar/cbx-notes-suite.git
 -   ⁠Naviguer dans le dossier ⁠ backend-spring
 -   Dans un terminal, lancer la commande:
     ```
-    docker-compose --build -d
+    docker-compose up --build -d
     ```
 
 Accéder à l'application dans votre navigateur via l'url :
