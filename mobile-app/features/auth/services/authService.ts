@@ -42,6 +42,7 @@ export const AuthService = {
                 throw new Error(res.status.toString());
             })
             .catch((err) => {
+                console.log(err.message)
                 if (err instanceof AxiosError) {
                     const { response } = err;
                     if (response?.status === 403) {
@@ -57,6 +58,8 @@ export const AuthService = {
                     success: false,
                     message: "Veuillez vérifier vos identifiants",
                 };
+            }).finally(() => {
+                console.log("cisko0ooooooo")
             });
     },
 

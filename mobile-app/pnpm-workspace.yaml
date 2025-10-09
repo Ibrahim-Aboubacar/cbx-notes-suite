@@ -1,2 +1,4 @@
 onlyBuiltDependencies:
   - unrs-resolver
+overrides:
+  markdown-it@<12.3.2: '>=12.3.2'
