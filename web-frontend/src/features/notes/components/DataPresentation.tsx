@@ -23,7 +23,7 @@ export const DataPresentation = memo(({ data, isPending, search, noDataComponent
 
     return (
         <>
-            <div className={cn("grid gap-4 grid-cols-3 pb-40", !isPending && (data == undefined || data?.notes.length == 0) && "pb-0")}>
+            <div className={cn("grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pb-40", !isPending && (data == undefined || data?.notes.length == 0) && "pb-0")}>
                 {/* Lading State */}
                 <AnimatePresence>
                     {/*  */}
